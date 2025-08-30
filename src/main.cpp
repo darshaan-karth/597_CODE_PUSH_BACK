@@ -3,11 +3,14 @@
 #include "pros/misc.h"
 #include "Systems/DriveTrain.hpp"
 #include "Systems/Intake.hpp"
+#include "Autonomous/ChassisAuton.hpp"
 
+using namespace Constants;
 using namespace pros;
 
 DriveTrain dt = DriveTrain();
 Intake intk = Intake();
+ChassisAuton auton = ChassisAuton();
 Controller master(E_CONTROLLER_MASTER);
 
 /**
@@ -49,7 +52,42 @@ void competition_initialize() {}
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-void autonomous() {}
+
+ //SIMPLE TEST AUTON
+void runMatchAuton(int chgAngle){
+	auton.moveDistancesInches(24.0);
+	auton.turnAngleDegrees(90 * chgAngle);
+	intk.storageIntake();
+	auton.moveDistancesInches(12.0);
+	delay(100);
+	auton.turnAngleDegrees(-45 * chgAngle);
+	auton.moveDistancesInches(33.9);
+	delay(100);
+	intk.stopIntakeMotors();
+	auton.moveDistancesInches(-33.9);
+	auton.turnAngleDegrees(90 * chgAngle);
+	auton.moveDistancesInches(33.9);
+	auton.turnAngleDegrees(-135 * chgAngle);
+	auton.moveDistancesInches(24);
+	intk.topGoal();
+	delay(500);
+	intk.stopIntakeMotors();
+}
+
+void runSkillsAuton(){
+	
+}
+
+void autonomous() {
+	if (isMatchAuton == true) {
+		int chgAngle = (isRightSide == true) ? 1 : -1;
+		runMatchAuton(chgAngle);
+	} 
+	else if (isMatchAuton == false) {
+		runSkillsAuton();
+	}
+		
+}
 
 /**
  * Runs the operator control code. This function will be started in its own task
