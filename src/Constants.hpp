@@ -1,81 +1,123 @@
 #pragma once
-#include <stdint.h>
+
+#include <cstdint>
 #include <cmath>
+#include "lemlib/api.hpp"
+#include "lemlib/chassis/chassis.hpp"
+#include "pros/motor_group.hpp"
+#include "pros/motors.h"
+
+using namespace pros;
 
 namespace Constants {
 
-    // DriveTrain Constants
-    static const int8_t fl_p = -13; // Port of Front Left DriveTrain Motor
-    static const int8_t ml_p = 12; // Port of Middle Left DriveTrain Motor
-    static const int8_t bl_p = -11; // Port of Back Left DriveTrain Motor
+    // ======================
+    // ==  Motor Ports     ==
+    // ======================
 
-    static const int8_t fr_p = 18; // Port of Front Right DriveTrain Motor
-    static const int8_t mr_p = -19; // Port of Middle Right DriveTrain Motor
-    static const int8_t  br_p = 20; // Port of Back Right DriveTrain Motor
+    // DriveTrain Motor Ports
+    constexpr int8_t fl_p = -13; // Front Left
+    constexpr int8_t ml_p = 12;  // Middle Left
+    constexpr int8_t bl_p = -11; // Back Left
 
-    static const int8_t imu_port = 1; // Port of IMU for heading corrections
+    constexpr int8_t fr_p = 18;  // Front Right
+    constexpr int8_t mr_p = -19; // Middle Right
+    constexpr int8_t br_p = 20;  // Back Right
 
-    // Intake Constants
-    static const int8_t frontBottom_intake = 8; // Port of Front Bottom Intake Motor
-    static const int8_t frontTop_intake = 9; // Port of Front Top Intake Motor
-    static const int8_t back_intake = 10; // Port of Back Intake Motor
+    // IMU Port
+    constexpr int8_t imu_port = 1;
 
-    // PID gains for motion control:
-    //
-    // Distance PID: Controls how accurately the robot moves to a target position.
-    //   - Proportional (P): Reacts to how far the robot is from the target distance.
-    //   - Integral (I): Helps eliminate steady-state error (usually left at 0).
-    //   - Derivative (D): Dampens overshoot by reacting to rate of error change.
-    //
-    // Turn PID: Controls how accurately the robot turns to a target heading.
-    //   - Proportional (P): Reacts to the angular error (difference in heading).
-    //   - Integral (I): Helps with small consistent angular errors (often unused).
-    //   - Derivative (D): Smooths the turn and reduces overshooting.
-    //
-    // Angle PID: Controls heading correction while the robot is driving (not turning in place).
-    //   - Proportional (P): Corrects heading error while following a path.
-    //   - Integral (I): Helps correct long-term drift during path following.
-    //   - Derivative (D): Reduces oscillations in heading during motion.
-    //
-    // Tip:
-    // - Increase P for faster response, but too high can overshoot.
-    // - D helps stabilize motion.
-    // - I is rarely needed unless you have drift or long-term error.
+    //Loader Clamp Port
+    constexpr int8_t clamp_p = 10;
 
-    //Distance PID
-    static const double distance_kP = 0.001;
-    static const double distance_kI = 0.0;
-    static const double distance_kD = 0.0;
-    
-    //Turn PID
-    static const double turn_kP = 0.003;
-    static const double turn_kI = 0.0;
-    static const double turn_kD = 0.0003;
+    // Intake Motor Ports
+    constexpr int8_t frontBottom_intake = 8;
+    constexpr int8_t frontTop_intake = 9;
+    constexpr int8_t back_intake = 10;
 
-    //Angle PID
-    static const double angle_kP = 0.003;
-    static const double angle_kI = 0.0;
-    static const double angle_kD = 0.0002;
+    // ======================
+    // == PID Parameters   ==
+    // ======================
 
-    //Chassis Autonomous - Motion Profile Constants
-    // Set motion profile constraints:
-    //   - Max velocity (ft/s): limits the top speed of the robot during path following.
-    //   - Max acceleration (ft/s²): limits how quickly the robot can speed up or slow down.
-    //   - Max jerk (ft/s³): limits the rate of change of acceleration to ensure smooth motion and reduce mechanical stress.
-    //
-    // Adjust these values to balance speed, precision, and smoothness of the robot's movements.
-    // Lower values = smoother and more controlled motion but slower.
-    // Higher values = faster but potentially less smooth and accurate.
+    // Lateral PID
+    constexpr float lateral_kP = 15.0;
+    constexpr float lateral_kI = 0.0;
+    constexpr float lateral_kD = 30.0;
 
-    static const double autonVelocity = 1.0;
-    static const double autonAcceleration = 2.0;
-    static const double autonJerk = 10.0;
+    constexpr float lateral_windupRange = 4;
+    constexpr float lateral_smallError = 3;
+    constexpr float lateral_smallTime = 100;
+    constexpr float lateral_largeError = 5;
+    constexpr float lateral_largeTime = 300;
+    constexpr float lateral_maxVoltage = 12000;
 
-    //Restricting Variables
-    static constexpr unsigned char threshold = 9; // Threshhold for controller to start moving the robot for DriveTrain (7%)
+    // Angular PID
+    constexpr float angular_kP = 3.0;
+    constexpr float angular_kI = 0.0;
+    constexpr float angular_kD = 20.0;
 
-    // Autonomous Mode Types
-    static const bool isMatchAuton = true;
-    static const bool isBlueAlliance = false;
-    static const bool isRightSide = true: 
-};
+    constexpr float angular_windupRange = 2;
+    constexpr float angular_smallError = 1;
+    constexpr float angular_smallTime = 100;
+    constexpr float angular_largeError = 3;
+    constexpr float angular_largeTime = 300;
+    constexpr float angular_maxVoltage = 12000;
+
+    // ======================
+    // == LemLib Objects   ==
+    // ======================
+
+    //Motor Groups for Autonomous
+    inline pros::MotorGroup* leftMotors = new pros::MotorGroup({fl_p, ml_p, bl_p});
+    inline pros::MotorGroup* rightMotors = new pros::MotorGroup({fr_p, mr_p, br_p});
+
+    // PID Controller Settings
+    inline lemlib::ControllerSettings lateralPID(
+        lateral_kP, lateral_kI, lateral_kD,
+        lateral_windupRange,
+        lateral_smallError, lateral_smallTime,
+        lateral_largeError, lateral_largeTime,
+        lateral_maxVoltage
+    );
+
+    inline lemlib::ControllerSettings angularPID(
+        angular_kP, angular_kI, angular_kD,
+        angular_windupRange,
+        angular_smallError, angular_smallTime,
+        angular_largeError, angular_largeTime,
+        angular_maxVoltage
+    );
+
+    // Drivetrain Settings
+    inline lemlib::Drivetrain drivetrain(
+        leftMotors,
+        rightMotors,
+        14, // Track width (inches)
+        lemlib::Omniwheel::NEW_325,
+        600, // Wheel travel (ticks per rotation)
+        2    // Chase power (max curve aggressiveness)
+    );
+
+    // ======================
+    // == Motion Profile   ==
+    // ======================
+
+    // Motion profiling constants
+    constexpr double autonVelocity = 1.0;       // ft/s
+    constexpr double autonAcceleration = 2.0;   // ft/s^2
+    constexpr double autonJerk = 10.0;          // ft/s^3
+
+    // ======================
+    // == Drive Control    ==
+    // ======================
+
+    constexpr uint8_t threshold = 9; // Joystick deadzone (7–10%)
+
+    // ======================
+    // == Auton Config     ==
+    // ======================
+
+    constexpr bool isMatchAuton = true;
+    constexpr bool isBlueAlliance = false;
+    constexpr bool isRightSide = true;
+}

@@ -3,6 +3,7 @@
 #include "pros/misc.h"
 #include "Systems/DriveTrain.hpp"
 #include "Systems/Intake.hpp"
+#include "Systems/LoaderClamp.hpp"
 #include "Autonomous/ChassisAuton.hpp"
 
 using namespace Constants;
@@ -10,6 +11,7 @@ using namespace pros;
 
 DriveTrain dt = DriveTrain();
 Intake intk = Intake();
+LoaderClamp loader = LoaderClamp();
 ChassisAuton auton = ChassisAuton();
 Controller master(E_CONTROLLER_MASTER);
 
@@ -103,7 +105,7 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	int intakeTime = 0;
+	int intakeTime = 0, loaderTime = 0;
 
 	while (true) {
 		//Calling DriveTrain System
@@ -115,6 +117,9 @@ void opcontrol() {
 		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {intk.middleGoal();}
 		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {intk.lowerGoal();}
 		else {intk.stopIntakeMotors();}
+
+		//LoaderClmap System for accessing Loaders
+		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A) && (millis() - loaderTime > 500)) {loader.toggleClampLock(); loaderTime = millis();};
 
 		delay(20); // Run for 20 ms then update
 	}
