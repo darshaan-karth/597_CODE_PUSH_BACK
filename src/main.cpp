@@ -22,6 +22,7 @@ Controller master(E_CONTROLLER_MASTER);
  * to keep execution time for this mode under a few seconds.
  */
 void initialize() {
+	auton.initialize();
 	dt.teleMove = [=]{dt.arcadeDrive(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y), master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X));};
 }
 
@@ -57,23 +58,38 @@ void competition_initialize() {}
 
  //SIMPLE TEST AUTON
 void runMatchAuton(int chgAngle){
-	auton.moveDistancesInches(24.0);
-	auton.turnAngleDegrees(90 * chgAngle);
 	intk.storageIntake();
-	auton.moveDistancesInches(12.0);
-	delay(100);
-	auton.turnAngleDegrees(-45 * chgAngle);
-	auton.moveDistancesInches(33.9);
-	delay(100);
+	auton.moveCurvedPath({{0, 5}, {5, 10}, {10,20}, {16, 23}, {16, 15}});
+	delay(1000);
 	intk.stopIntakeMotors();
-	auton.moveDistancesInches(-33.9);
-	auton.turnAngleDegrees(90 * chgAngle);
-	auton.moveDistancesInches(33.9);
-	auton.turnAngleDegrees(-135 * chgAngle);
-	auton.moveDistancesInches(24);
+	/*auton.moveTo(0, 8);
+	auton.turnToHeading(270);
+	intk.storageIntake();
+	auton.moveCurvedPath({{-24, 8}, {-36, 8}, {-60, 8}});
+	delay(500);
+	intk.stopIntakeMotors();*/
+
+	/*auton.turnToHeading(90 * chgAngle);
+
+	intk.storageIntake();
+
+	auton.moveTo(12.0);
+	delay(100);
+	auton.turnToHeading(-45 * chgAngle);
+	auton.moveTo(33.9);
+	delay(100);
+
+	intk.stopIntakeMotors();
+
+	auton.moveTo(-33.9);
+	auton.turnToHeading(90 * chgAngle);
+	auton.moveTo(33.9);
+	auton.turnToHeading(-135 * chgAngle);
+	auton.moveTo(24);
+
 	intk.topGoal();
 	delay(500);
-	intk.stopIntakeMotors();
+	intk.stopIntakeMotors();*/
 }
 
 void runSkillsAuton(){
@@ -81,6 +97,7 @@ void runSkillsAuton(){
 }
 
 void autonomous() {
+	auton.initialize();
 	if (isMatchAuton == true) {
 		int chgAngle = (isRightSide == true) ? 1 : -1;
 		runMatchAuton(chgAngle);

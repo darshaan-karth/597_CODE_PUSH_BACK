@@ -25,10 +25,10 @@ namespace Constants {
     constexpr int8_t br_p = 20;  // Back Right
 
     // IMU Port
-    constexpr int8_t imu_port = 1;
+    constexpr int8_t imu_port = 7;
 
     //Loader Clamp Port
-    constexpr int8_t clamp_p = 10;
+    constexpr unsigned char clamp_p = 'E'; // Port for the Pneumatic clamps
 
     // Intake Motor Ports
     constexpr int8_t frontBottom_intake = 8;
@@ -39,22 +39,61 @@ namespace Constants {
     // == PID Parameters   ==
     // ======================
 
-    // Lateral PID
-    constexpr float lateral_kP = 15.0;
-    constexpr float lateral_kI = 0.0;
-    constexpr float lateral_kD = 30.0;
+    /**
+    * ===== PID TUNING GUIDE =====
+    *
+    * - Tune lateral (drive) and angular (turn) PID separately.
+    * - Start with low kP, increase until you get good response.
+    * - Add kD to reduce overshoot and oscillation.
+    * - Use small kI only if steady-state error occurs.
+    *
+    * LATERAL PID (Forward/Backward Driving):
+    * - lateral_kP: Increases response speed
+    *     - Too high -> overshoot or oscillation
+    * - lateral_kD: Dampens overshoot and oscillation
+    *     - Too low -> robot bounces at target
+    * - lateral_kI: Fixes consistent undershooting (try 0.01–0.05)
+    *
+    * ANGULAR PID (Turning In Place):
+    * - angular_kP: Controls how fast it turns to target
+    *     - Too high -> spins past target
+    * - angular_kD: Prevents wobbles at final heading
+    *     - Too low -> jittery at end
+    * - angular_kI: Rarely needed; try only if it never reaches angle
+    *
+    * Testing:
+    * 1. Test moveDistancesInches() for straight driving.
+    * 2. Tune lateral PID for smooth stops without jitter.
+    * 3. Test turnAngleDegrees() for turning accuracy.
+    * 4. Tune angular PID for precise heading control.
+    *
+    * Tips:
+    * - Increase smallError or smallTime to reduce jitter at target.
+    * - Use delays after moves to observe robot behavior.
+    * - Print sensor data for debugging.
+    * 
+    * DEBUGGING Tips:
+    * - Print pose or sensor values with pros::lcd::print()
+    * - Increase smallError or smallTime if it jitters at target
+    * - Add delay() after move/turn commands to watch behavior
+    */
 
-    constexpr float lateral_windupRange = 4;
+    // Lateral PID
+    constexpr float lateral_kP = 10.0;
+    constexpr float lateral_kI = 0.0;
+    constexpr float lateral_kD = 18.0;
+
+    constexpr float lateral_windupRange = 2;
     constexpr float lateral_smallError = 3;
     constexpr float lateral_smallTime = 100;
     constexpr float lateral_largeError = 5;
-    constexpr float lateral_largeTime = 300;
+    constexpr float lateral_largeTime = 200;
     constexpr float lateral_maxVoltage = 12000;
 
     // Angular PID
-    constexpr float angular_kP = 3.0;
-    constexpr float angular_kI = 0.0;
-    constexpr float angular_kD = 20.0;
+    constexpr float angular_kP = 1.0;
+    constexpr float angular_kI = 0.5;
+    constexpr float angular_kD = 0.0;
 
     constexpr float angular_windupRange = 2;
     constexpr float angular_smallError = 1;
@@ -66,10 +105,6 @@ namespace Constants {
     // ======================
     // == LemLib Objects   ==
     // ======================
-
-    //Motor Groups for Autonomous
-    inline pros::MotorGroup* leftMotors = new pros::MotorGroup({fl_p, ml_p, bl_p});
-    inline pros::MotorGroup* rightMotors = new pros::MotorGroup({fr_p, mr_p, br_p});
 
     // PID Controller Settings
     inline lemlib::ControllerSettings lateralPID(
@@ -87,25 +122,6 @@ namespace Constants {
         angular_largeError, angular_largeTime,
         angular_maxVoltage
     );
-
-    // Drivetrain Settings
-    inline lemlib::Drivetrain drivetrain(
-        leftMotors,
-        rightMotors,
-        14, // Track width (inches)
-        lemlib::Omniwheel::NEW_325,
-        600, // Wheel travel (ticks per rotation)
-        2    // Chase power (max curve aggressiveness)
-    );
-
-    // ======================
-    // == Motion Profile   ==
-    // ======================
-
-    // Motion profiling constants
-    constexpr double autonVelocity = 1.0;       // ft/s
-    constexpr double autonAcceleration = 2.0;   // ft/s^2
-    constexpr double autonJerk = 10.0;          // ft/s^3
 
     // ======================
     // == Drive Control    ==
