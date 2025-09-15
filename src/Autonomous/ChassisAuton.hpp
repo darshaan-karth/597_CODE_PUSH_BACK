@@ -54,20 +54,23 @@ public:
         chassis.setPose(0, 0, 0);
     }
 
+    void follow(const asset& path, double lookahead = 10, int timeout = 3000) {
+        chassis.follow(path, lookahead, timeout, true, false);
+    }
+
+
     // Moves robot to an absolute field position (X, Y in inches)
-    void moveTo(double x, double y) {
-        chassis.moveToPoint(x, y, 3000); // 3 second timeout
+    void moveTo(double x, double y, bool isForward=true) {
+        chassis.moveToPoint(x, y, 3000, {.forwards = isForward}); // 3 second timeout
         chassis.waitUntilDone();
-        delay(100);
     }
 
     // Turns robot to face a specific heading (0–360 degrees)
-    void turnToHeading(double heading) {
+    void turnTo(double heading) {
         auto pose = chassis.getPose();
-        chassis.moveToPose(pose.x, pose.y, heading, 3000);
-        //chassis.turnToPoint(pose.x, pose.y, heading);
+        //chassis.moveToPose(pose.x, pose.y, heading, 3000);
+        chassis.turnToHeading(heading, 3000);
         chassis.waitUntilDone();
-        delay(100);
     }
 
     // Optional: Curved path between waypoints (absolute)

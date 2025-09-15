@@ -5,6 +5,7 @@
 #include "Systems/Intake.hpp"
 #include "Systems/LoaderClamp.hpp"
 #include "Autonomous/ChassisAuton.hpp"
+#include "lemlib-tarball/api.hpp"
 
 using namespace Constants;
 using namespace pros;
@@ -14,6 +15,12 @@ Intake intk = Intake();
 LoaderClamp loader = LoaderClamp();
 ChassisAuton auton = ChassisAuton();
 Controller master(E_CONTROLLER_MASTER);
+
+//ASSET(blueRight_txt);
+//lemlib_tarball::Decoder BLUE_RIGHT(blueRight_txt);
+
+ASSET(blueRightNotStrict_txt);
+lemlib_tarball::Decoder BLUE_RIGHT(blueRightNotStrict_txt);
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -58,36 +65,29 @@ void competition_initialize() {}
 
  //SIMPLE TEST AUTON
 void runMatchAuton(int chgAngle){
+	auton.resetCoordinateSystem();
 	intk.storageIntake();
-	auton.moveCurvedPath({{0, 5}, {5, 10}, {10,20}, {16, 23}, {16, 15}});
-	delay(1000);
+	auton.follow(BLUE_RIGHT["INTAKE_PATH_1"], 10, 3000);
+	delay(2000);
 	intk.stopIntakeMotors();
-	/*auton.moveTo(0, 8);
-	auton.turnToHeading(270);
+
+	loader.toggleClampLock();
+	auton.follow(BLUE_RIGHT["LOADER_PATH_2"], 10, 3000);
 	intk.storageIntake();
-	auton.moveCurvedPath({{-24, 8}, {-36, 8}, {-60, 8}});
 	delay(500);
-	intk.stopIntakeMotors();*/
-
-	/*auton.turnToHeading(90 * chgAngle);
-
-	intk.storageIntake();
-
-	auton.moveTo(12.0);
-	delay(100);
-	auton.turnToHeading(-45 * chgAngle);
-	auton.moveTo(33.9);
-	delay(100);
-
 	intk.stopIntakeMotors();
 
-	auton.moveTo(-33.9);
-	auton.turnToHeading(90 * chgAngle);
-	auton.moveTo(33.9);
-	auton.turnToHeading(-135 * chgAngle);
-	auton.moveTo(24);
-
-	intk.topGoal();
+	/*auton.resetCoordinateSystem();
+	auton.moveTo(0, -14, false);
+	auton.turnTo(90);
+	auton.resetCoordinateSystem();
+	auton.moveTo(0, 42);
+	auton.turnTo(35);
+	loader.toggleClampLock();*/
+	/*auton.resetCoordinateSystem();
+	delay(100);
+	auton.moveTo(0, 17);
+	intk.storageIntake();
 	delay(500);
 	intk.stopIntakeMotors();*/
 }
@@ -97,7 +97,6 @@ void runSkillsAuton(){
 }
 
 void autonomous() {
-	auton.initialize();
 	if (isMatchAuton == true) {
 		int chgAngle = (isRightSide == true) ? 1 : -1;
 		runMatchAuton(chgAngle);
