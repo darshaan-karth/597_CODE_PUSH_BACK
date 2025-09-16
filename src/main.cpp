@@ -16,11 +16,11 @@ LoaderClamp loader = LoaderClamp();
 ChassisAuton auton = ChassisAuton();
 Controller master(E_CONTROLLER_MASTER);
 
-//ASSET(blueRight_txt);
-//lemlib_tarball::Decoder BLUE_RIGHT(blueRight_txt);
+ASSET(blueRight_txt);
+lemlib_tarball::Decoder BLUE_RIGHT(blueRight_txt);
 
-ASSET(blueRightNotStrict_txt);
-lemlib_tarball::Decoder BLUE_RIGHT(blueRightNotStrict_txt);
+//ASSET(blueRightNotStrict_txt);
+//lemlib_tarball::Decoder BLUE_RIGHT(blueRightNotStrict_txt);
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -71,9 +71,19 @@ void runMatchAuton(int chgAngle){
 	delay(2000);
 	intk.stopIntakeMotors();
 
+	auton.follow(BLUE_RIGHT["BOTTOM_GOAL_PATH_2"], 10, 3000);
+	intk.lowerGoal();
+	delay(500);
+	intk.stopIntakeMotors();
+
 	loader.toggleClampLock();
-	auton.follow(BLUE_RIGHT["LOADER_PATH_2"], 10, 3000);
+	auton.follow(BLUE_RIGHT["LOADER_PATH_3"], 10, 3000);
 	intk.storageIntake();
+	delay(500);
+	intk.stopIntakeMotors();
+
+	auton.follow(BLUE_RIGHT["LONG_GOAL_PATH_4"], 10, 3000);
+	intk.topGoal();
 	delay(500);
 	intk.stopIntakeMotors();
 
