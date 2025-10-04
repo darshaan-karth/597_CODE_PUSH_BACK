@@ -26,6 +26,7 @@ namespace Constants {
 
     // IMU Port
     constexpr int8_t imu_port = 7;
+    constexpr int8_t encoder_port = 5;
 
     //Loader Clamp Port
     constexpr unsigned char clamp_p = 'E'; // Port for the Pneumatic clamps
@@ -143,6 +144,13 @@ namespace Constants {
         angular_smallError, angular_smallTime,
         angular_largeError, angular_largeTime,
         angular_maxVoltage
+    );
+
+    pros::Rotation horizontal_encoder(encoder_port);
+    inline lemlib::TrackingWheel lateral_tracking(
+        &horizontal_encoder, 
+        lemlib::Omniwheel::NEW_325, 
+        0
     );
 
     // ======================

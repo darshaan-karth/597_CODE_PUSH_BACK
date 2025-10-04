@@ -1,11 +1,11 @@
 #include "main.h"
+#include "Autonomous/ChassisAuton.hpp"
 #include "Constants.hpp"
-#include "pros/misc.h"
 #include "Systems/DriveTrain.hpp"
 #include "Systems/Intake.hpp"
 #include "Systems/LoaderClamp.hpp"
-#include "Autonomous/ChassisAuton.hpp"
 #include "lemlib-tarball/api.hpp"
+#include "pros/misc.h"
 
 using namespace Constants;
 using namespace pros;
@@ -19,8 +19,8 @@ Controller master(E_CONTROLLER_MASTER);
 ASSET(blueRight_txt);
 lemlib_tarball::Decoder BLUE_RIGHT(blueRight_txt);
 
-//ASSET(blueRightNotStrict_txt);
-//lemlib_tarball::Decoder BLUE_RIGHT(blueRightNotStrict_txt);
+// ASSET(blueRightNotStrict_txt);
+// lemlib_tarball::Decoder BLUE_RIGHT(blueRightNotStrict_txt);
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -28,9 +28,23 @@ lemlib_tarball::Decoder BLUE_RIGHT(blueRight_txt);
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
+
 void initialize() {
-	auton.initialize();
-	dt.teleMove = [=]{dt.arcadeDrive(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y), master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X));};
+  pros::lcd::initialize();
+  auton.initialize();
+  dt.teleMove = [=] {
+    dt.arcadeDrive(master.get_analog(E_CONTROLLER_ANALOG_LEFT_Y),
+                   master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X));
+  };
+
+  pros::Task statusTask([] {
+    while (true) {
+      pros::lcd::print(0, "X: %.2f", auton.getPoseX());
+      pros::lcd::print(1, "Y: %.2f", auton.getPoseY());
+      pros::lcd::print(2, "H: %.2f", auton.getPoseHeading());
+      pros::delay(50);
+    }
+  });
 }
 
 /**
@@ -63,58 +77,29 @@ void competition_initialize() {}
  * from where it left off.
  */
 
- //SIMPLE TEST AUTON
-void runMatchAuton(int chgAngle){
-	auton.resetCoordinateSystem();
-	intk.storageIntake();
-	auton.follow(BLUE_RIGHT["INTAKE_PATH_1"], 10, 3000);
-	delay(2000);
-	intk.stopIntakeMotors();
+// SIMPLE TEST AUTON
+void runMatchAuton(int chgAngle) {
+  auton.resetCoordinateSystem();
+  intk.storageIntake();
+  auton.follow(BLUE_RIGHT["INTAKE_PATH_1"], 2, 1500);
 
-	auton.follow(BLUE_RIGHT["BOTTOM_GOAL_PATH_2"], 10, 3000);
-	intk.lowerGoal();
-	delay(500);
-	intk.stopIntakeMotors();
+  intk.stopIntakeMotors();
 
-	loader.toggleClampLock();
-	auton.follow(BLUE_RIGHT["LOADER_PATH_3"], 10, 3000);
-	intk.storageIntake();
-	delay(500);
-	intk.stopIntakeMotors();
-
-	auton.follow(BLUE_RIGHT["LONG_GOAL_PATH_4"], 10, 3000);
-	intk.topGoal();
-	delay(500);
-	intk.stopIntakeMotors();
-
-	/*auton.resetCoordinateSystem();
-	auton.moveTo(0, -14, false);
-	auton.turnTo(90);
-	auton.resetCoordinateSystem();
-	auton.moveTo(0, 42);
-	auton.turnTo(35);
-	loader.toggleClampLock();*/
-	/*auton.resetCoordinateSystem();
-	delay(100);
-	auton.moveTo(0, 17);
-	intk.storageIntake();
-	delay(500);
-	intk.stopIntakeMotors();*/
+  /*auton.resetCoordinateSystem();
+  auton.moveCurvedPath(
+      {{0, 0, 0}, {12, 12, 0}, {24, 24, 0}, {36, 36, 0}, {48, 48, 0}}, 64.0,
+      2000);*/
 }
 
-void runSkillsAuton(){
-	
-}
+void runSkillsAuton() {}
 
 void autonomous() {
-	if (isMatchAuton == true) {
-		int chgAngle = (isRightSide == true) ? 1 : -1;
-		runMatchAuton(chgAngle);
-	} 
-	else if (isMatchAuton == false) {
-		runSkillsAuton();
-	}
-		
+  if (isMatchAuton == true) {
+    int chgAngle = (isRightSide == true) ? 1 : -1;
+    runMatchAuton(chgAngle);
+  } else if (isMatchAuton == false) {
+    runSkillsAuton();
+  }
 }
 
 /**
@@ -131,22 +116,32 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-	int intakeTime = 0, loaderTime = 0;
+  int intakeTime = 0, loaderTime = 0;
 
-	while (true) {
-		//Calling DriveTrain System
-		dt.teleMove();
-		
-		//Intake System to spin, spinFast, spinRev, or stop
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {intk.topGoal();}
-		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {intk.storageIntake();}
-		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {intk.middleGoal();}
-		else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {intk.lowerGoal();}
-		else {intk.stopIntakeMotors();}
+  while (true) {
+    // Calling DriveTrain System
+    dt.teleMove();
 
-		//LoaderClmap System for accessing Loaders
-		if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A) && (millis() - loaderTime > 500)) {loader.toggleClampLock(); loaderTime = millis();};
+    // Intake System to spin, spinFast, spinRev, or stop
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+      intk.topGoal();
+    } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+      intk.storageIntake();
+    } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+      intk.middleGoal();
+    } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+      intk.lowerGoal();
+    } else {
+      intk.stopIntakeMotors();
+    }
 
-		delay(20); // Run for 20 ms then update
-	}
+    // LoaderClmap System for accessing Loaders
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A) &&
+        (millis() - loaderTime > 500)) {
+      loader.toggleClampLock();
+      loaderTime = millis();
+    };
+
+    delay(20); // Run for 20 ms then update
+  }
 }
