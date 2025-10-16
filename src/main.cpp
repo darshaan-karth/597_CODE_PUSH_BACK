@@ -81,14 +81,25 @@ void competition_initialize() {}
 void runMatchAuton(int chgAngle) {
   auton.resetCoordinateSystem();
   intk.storageIntake();
-  auton.follow(BLUE_RIGHT["INTAKE_PATH_1"], 2, 1500);
+  auton.follow(BLUE_RIGHT["INTAKE_PATH_1"], 2, 1000);
+  delay(900);
+  intk.stopIntakeMotors();
 
+  auton.resetCoordinateSystem();
+  auton.turnTo(-10);
+  auton.moveTo(0, -4.7, 1000, false);
+  delay(100);
+  auton.swingTo(-170, DriveSide::LEFT, 800);
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, 3, 500);
+  intk.lowerGoal();
+  delay(900);
   intk.stopIntakeMotors();
 
   /*auton.resetCoordinateSystem();
-  auton.moveCurvedPath(
-      {{0, 0, 0}, {12, 12, 0}, {24, 24, 0}, {36, 36, 0}, {48, 48, 0}}, 64.0,
-      2000);*/
+  auton.moveTo(0, -20, 1000, false);
+  auton.turnTo(-135);
+  loader.toggleClampLock();*/
 }
 
 void runSkillsAuton() {}

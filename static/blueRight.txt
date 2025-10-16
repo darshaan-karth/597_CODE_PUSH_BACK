@@ -1,33 +1,35 @@
 #PATH-POINTS-START INTAKE_PATH_1
-65.177, 12.912, 65.15
-63.241, 12.408, 65.121
-61.29, 11.968, 65.052
-59.325, 11.601, 65.013
-57.347, 11.308, 64.924
-55.359, 11.088, 64.876
-53.364, 10.952, 64.772
-51.365, 10.892, 64.66
-49.365, 10.926, 64.603
-47.369, 11.043, 64.486
-45.381, 11.256, 64.429
-43.404, 11.563, 64.319
-41.446, 11.967, 64.268
-39.511, 12.472, 64.178
-37.605, 13.075, 64.141
-35.735, 13.784, 64.088
-33.904, 14.589, 64.073
-32.124, 15.499, 64.07
-30.393, 16.5, 64.083
-28.722, 17.599, 64.138
-27.112, 18.785, 64.18
-25.566, 20.053, 64.291
-24.092, 21.404, 60.264
-22.684, 22.824, 55.891
-21.347, 24.311, 51.145
-20.084, 25.861, 45.912
-18.889, 27.465, 40
-18.194, 28.455, 0
+68.83, 8.741, 93.975
+66.839, 8.548, 93.926
+64.848, 8.354, 93.818
+62.858, 8.163, 93.7
+60.866, 7.978, 93.571
+58.874, 7.802, 93.431
+56.88, 7.641, 93.276
+54.885, 7.499, 93.105
+52.889, 7.382, 92.917
+50.891, 7.294, 92.709
+48.892, 7.246, 92.225
+46.892, 7.247, 91.945
+44.893, 7.304, 91.637
+42.896, 7.425, 91.301
+40.908, 7.636, 90.546
+38.931, 7.938, 90.133
+36.975, 8.353, 89.27
+35.052, 8.901, 88.844
+33.176, 9.589, 88.089
+31.366, 10.439, 87.801
+29.643, 11.453, 87.498
+28.026, 12.628, 87.507
+26.536, 13.96, 85.668
+25.177, 15.425, 81.374
+23.956, 17.008, 76.841
+22.872, 18.688, 72.023
+21.907, 20.439, 66.857
+21.058, 22.249, 61.257
+20.321, 24.108, 55.09
+19.675, 26.001, 48.14
+19.11, 27.919, 40
+18.594, 29.921, 0
 endData
-#PATH.JERRYIO-DATA {"appVersion":"0.10.0","format":"LemLib Tarball v0.5","gc":{"robotWidth":11.75,"robotHeight":11,"robotIsHolonomic":false,"showRobot":true,"uol":2.54,"pointDensity":2,"controlMagnetDistance":1.968503937007874,"fieldImage":{"displayName":"V5RC 2026 - Push Back","signature":"V5RC-PushBack-H2H-TopDownHighlighted-TileColor66_71","origin":{"__type":"built-in"}},"coordinateSystem":"Path-Based Coordinates"},"paths":[{"segments":[{"controls":[{"uid":"bVTaPOykVW","x":65.17686154052457,"y":12.911667707316257,"lock":false,"visible":true,"heading":270,"__type":"end-point"},{"uid":"Fv3YmmsjnI","x":49.32720956447767,"y":8.466033616473835,"lock":false,"visible":true,"__type":"control"},{"uid":"2BsIlCBwSj","x":30.3849425687143,"y":10.398918003796627,"lock":false,"visible":true,"__type":"control"},{"uid":"rfMYpWWYAN","x":18.193861355249457,"y":28.454940941947896,"lock":false,"visible":true,"heading":327.79999999999893,"__type":"end-point"}],"speedProfiles":[],"lookaheadKeyframes":[],"uid":"7C1X3SZHXL"}],"pc":{"speedLimit":{"minLimit":{"value":0,"label":"0"},"maxLimit":{"value":127,"label":"127"},"step":1,"from":40,"to":67},"bentRateApplicableRange":{"minLimit":{"value":0,"label":"0"},"maxLimit":{"value":1,"label":"1"},"step":0.001,"from":0,"to":0.1},"maxDecelerationRate":127},"name":"INTAKE_PATH_1","uid":"S30Heqivp6","lock":false,"visible":true}]}
-
-
+#PATH.JERRYIO-DATA {"appVersion":"0.10.0","format":"LemLib Tarball v0.5","gc":{"robotWidth":11.75,"robotHeight":11,"robotIsHolonomic":false,"showRobot":true,"uol":2.54,"pointDensity":2,"controlMagnetDistance":1.968503937007874,"fieldImage":{"displayName":"V5RC 2026 - Push Back","signature":"V5RC-PushBack-H2H-TopDownHighlighted-TileColor66_71","origin":{"__type":"built-in"}},"coordinateSystem":"Path-Based Coordinates"},"paths":[{"segments":[{"controls":[{"uid":"bVTaPOykVW","x":68.82959645864743,"y":8.741312446725821,"lock":false,"visible":true,"heading":270,"__type":"end-point"},{"uid":"Fv3YmmsjnI","x":42.953463557780715,"y":6.246718689965922,"lock":false,"visible":true,"__type":"control"},{"uid":"2BsIlCBwSj","x":24.758267637732924,"y":3.5786710705615454,"lock":false,"visible":true,"__type":"control"},{"uid":"rfMYpWWYAN","x":18.594347806045263,"y":29.921050315756833,"lock":false,"visible":true,"heading":327.79999999999893,"__type":"end-point"}],"speedProfiles":[],"lookaheadKeyframes":[],"uid":"7C1X3SZHXL"}],"pc":{"speedLimit":{"minLimit":{"value":0,"label":"0"},"maxLimit":{"value":127,"label":"127"},"step":1,"from":40,"to":94},"bentRateApplicableRange":{"minLimit":{"value":0,"label":"0"},"maxLimit":{"value":1,"label":"1"},"step":0.001,"from":0,"to":0.162},"maxDecelerationRate":179.4},"name":"INTAKE_PATH_1","uid":"S30Heqivp6","lock":false,"visible":true}]}

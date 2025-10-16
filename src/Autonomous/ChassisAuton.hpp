@@ -50,8 +50,8 @@ public:
   }
 
   // Moves robot to an absolute field position (X, Y in inches)
-  void moveTo(double x, double y, bool isForward = true) {
-    chassis.moveToPoint(x, y, 3000,
+  void moveTo(double x, double y, int timeout = 1000, bool isForward = true) {
+    chassis.moveToPoint(x, y, timeout,
                         {.forwards = isForward}); // 3 second timeout
     chassis.waitUntilDone();
   }
@@ -60,6 +60,11 @@ public:
   void turnTo(double heading) {
     auto pose = chassis.getPose();
     chassis.turnToHeading(heading, 3000);
+    chassis.waitUntilDone();
+  }
+
+  void swingTo(double heading, DriveSide side, int timeout = 1000) {
+    chassis.swingToHeading(heading, side, timeout, {.maxSpeed = 60});
     chassis.waitUntilDone();
   }
 
