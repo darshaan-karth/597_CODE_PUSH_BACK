@@ -80,6 +80,21 @@ void competition_initialize() {}
 // SIMPLE TEST AUTON
 void runMatchAuton(int chgAngle) {
   auton.resetCoordinateSystem();
+  auton.moveTo(0, 13, 200);
+  auton.turnTo(-90);
+  auton.resetCoordinateSystem();
+  intk.storageIntake();
+  auton.moveCurvedPath({{0, 12}, {0, 10}}, 100, 270);
+  delay(900);
+  intk.stopIntakeMotors();
+  auton.turnTo(-45);
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, 18, 350);
+  intk.lowerGoal();
+  delay(3000);
+  intk.stopIntakeMotors();
+
+  /*auton.resetCoordinateSystem();
   intk.storageIntake();
   auton.follow(BLUE_RIGHT["INTAKE_PATH_1"], 2, 1000);
   delay(900);
@@ -87,19 +102,14 @@ void runMatchAuton(int chgAngle) {
 
   auton.resetCoordinateSystem();
   auton.turnTo(-10);
-  auton.moveTo(0, -4.7, 1000, false);
+  auton.moveTo(0, -4.8, 1000, false);
   delay(100);
-  auton.swingTo(-170, DriveSide::LEFT, 800);
+  auton.swingTo(-175, DriveSide::LEFT, 900);
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 3, 500);
+  auton.moveTo(0, 4, 500);
   intk.lowerGoal();
-  delay(900);
-  intk.stopIntakeMotors();
-
-  /*auton.resetCoordinateSystem();
-  auton.moveTo(0, -20, 1000, false);
-  auton.turnTo(-135);
-  loader.toggleClampLock();*/
+  delay(1500);
+  intk.stopIntakeMotors();*/
 }
 
 void runSkillsAuton() {}
