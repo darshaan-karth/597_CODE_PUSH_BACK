@@ -70,9 +70,9 @@ public:
 
   // Optional: Curved path between waypoints (absolute)
   void moveCurvedPath(const std::vector<lemlib::Pose> &waypoints,
-                      float speed = 100, int timeout = 1000) {
+                      float speed = 100) {
     for (const auto &point : waypoints) {
-      chassis.moveToPoint(point.x, point.y, timeout, {.maxSpeed = speed});
+      chassis.moveToPoint(point.x, point.y, point.y*(400/24), {.maxSpeed = speed});
       chassis.waitUntilDone();
     }
   }
