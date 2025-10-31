@@ -80,6 +80,7 @@ void competition_initialize() {}
 // SIMPLE TEST AUTON
 void runMatchAuton(int chgAngle) {
   auton.resetCoordinateSystem();
+<<<<<<< HEAD
   //auton.moveTo(0, 24, 400); // Movement Time-> 1 inch : 16.67 ms
 
   auton.moveTo(0, 12, 200);
@@ -103,14 +104,28 @@ void runMatchAuton(int chgAngle) {
   auton.resetCoordinateSystem();
   intk.storageIntake();
   auton.moveCurvedPath({{0, 12}, {0, 10}}, 100, 270);
+=======
+  auton.moveTo(0, 13, 200);
+  auton.turnTo(-90);
+  auton.resetCoordinateSystem();
+  intk.storageIntake();
+  auton.moveCurvedPath({{0, 12}, {0, 11}}, 64, 500);
+>>>>>>> f745ff1d0e736c44246b35ca6d33adfca5ce3cfb
   delay(900);
   intk.stopIntakeMotors();
   auton.turnTo(-45);
   auton.resetCoordinateSystem();
+<<<<<<< HEAD
   auton.moveTo(0, 18, 350);
   intk.lowerGoal();
   delay(3000);
   intk.stopIntakeMotors();*/
+=======
+  auton.moveTo(0, 16, 20);
+  intk.lowerGoal();
+  delay(2000);
+  intk.stopIntakeMotors();
+>>>>>>> f745ff1d0e736c44246b35ca6d33adfca5ce3cfb
 
   /*auton.resetCoordinateSystem();
   intk.storageIntake();
