@@ -80,69 +80,27 @@ void competition_initialize() {}
 // SIMPLE TEST AUTON
 void runMatchAuton(int chgAngle) {
   auton.resetCoordinateSystem();
-<<<<<<< HEAD
-  //auton.moveTo(0, 24, 400); // Movement Time-> 1 inch : 16.67 ms
-
   auton.moveTo(0, 12, 200);
   delay(200);
   auton.turnTo(-88);
   auton.resetCoordinateSystem();
   intk.storageIntake();
   auton.moveCurvedPath({{0, 24}, {0, 10}}, 127);
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, 6, 100);
   delay(900);
   intk.stopIntakeMotors();
   auton.resetCoordinateSystem();
-  auton.moveTo(0, -0.5, 16.67, false);
+  auton.moveTo(0, -7, 117, false);
   auton.turnTo(-45);
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 22, 367);
+  auton.moveTo(0, 22,367);
   intk.lowerGoal();
   delay(3000);
   intk.stopIntakeMotors();
-  /*auton.moveTo(0, 13, 200);
-  auton.turnTo(-90);
   auton.resetCoordinateSystem();
-  intk.storageIntake();
-  auton.moveCurvedPath({{0, 12}, {0, 10}}, 100, 270);
-=======
-  auton.moveTo(0, 13, 200);
-  auton.turnTo(-90);
-  auton.resetCoordinateSystem();
-  intk.storageIntake();
-  auton.moveCurvedPath({{0, 12}, {0, 11}}, 64, 500);
->>>>>>> f745ff1d0e736c44246b35ca6d33adfca5ce3cfb
-  delay(900);
-  intk.stopIntakeMotors();
-  auton.turnTo(-45);
-  auton.resetCoordinateSystem();
-<<<<<<< HEAD
-  auton.moveTo(0, 18, 350);
-  intk.lowerGoal();
-  delay(3000);
-  intk.stopIntakeMotors();*/
-=======
-  auton.moveTo(0, 16, 20);
-  intk.lowerGoal();
-  delay(2000);
-  intk.stopIntakeMotors();
->>>>>>> f745ff1d0e736c44246b35ca6d33adfca5ce3cfb
-
-  /*auton.resetCoordinateSystem();
-  intk.storageIntake();
-  auton.follow(BLUE_RIGHT["INTAKE_PATH_1"], 2, 1000);
-  delay(900);
-  intk.stopIntakeMotors();
-
-  auton.resetCoordinateSystem();
-  auton.turnTo(-10);
-  auton.moveTo(0, -4.8, 1000, false);
-  delay(100);
-  auton.swingTo(-175, DriveSide::LEFT, 900);
-  auton.resetCoordinateSystem();
-  auton.moveTo(0, 4, 500);
-  intk.lowerGoal();
-  delay(1500);
-  intk.stopIntakeMotors();*/
+  auton.moveTo(0, 4, 67);
+  auton.moveTo(0, -24, 400, false);
 }
 
 void runSkillsAuton() {}

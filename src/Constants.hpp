@@ -93,7 +93,7 @@ namespace Constants {
 
     constexpr float lateral_kP = 10.0;
     constexpr float lateral_kI = 0.0;
-    constexpr float lateral_kD = 3.0;
+    constexpr float lateral_kD = 3.5;
 
     constexpr float lateral_windupRange = 0;
     constexpr float lateral_smallError = 0;
