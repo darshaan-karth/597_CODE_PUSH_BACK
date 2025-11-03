@@ -50,8 +50,8 @@ public:
   }
 
   // Moves robot to an absolute field position (X, Y in inches)
-  void moveTo(double x, double y, int timeout = 1000, bool isForward = true) {
-    chassis.moveToPoint(x, y, timeout,
+  void moveTo(double x, double y, bool isForward = true) {
+    chassis.moveToPoint(x, y, std::abs(y) * (400.0 / 24.0),
                         {.forwards = isForward}); // 3 second timeout
     chassis.waitUntilDone();
   }
@@ -72,7 +72,8 @@ public:
   void moveCurvedPath(const std::vector<lemlib::Pose> &waypoints,
                       float speed = 100) {
     for (const auto &point : waypoints) {
-      chassis.moveToPoint(point.x, point.y, point.y*(400/24), {.maxSpeed = speed});
+      chassis.moveToPoint(point.x, point.y, point.y * (400 / 24),
+                          {.maxSpeed = speed});
       chassis.waitUntilDone();
     }
   }

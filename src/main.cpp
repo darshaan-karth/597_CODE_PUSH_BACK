@@ -6,6 +6,7 @@
 #include "Systems/LoaderClamp.hpp"
 #include "lemlib-tarball/api.hpp"
 #include "pros/misc.h"
+#include "pros/rtos.hpp"
 
 using namespace Constants;
 using namespace pros;
@@ -77,38 +78,118 @@ void competition_initialize() {}
  * from where it left off.
  */
 
-// SIMPLE TEST AUTON
-void runMatchAuton(int chgAngle) {
+// LEFT SIDE AUTONOMOUS
+void leftSideAuton() {
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 12, 200);
-  delay(200);
+  auton.moveTo(0, 6);
+  auton.turnTo(88);
+  auton.resetCoordinateSystem();
+  intk.storageIntake();
+  auton.moveCurvedPath({{0, 24}, {0, 10}}, 127);
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, 6);
+  delay(900);
+  intk.stopIntakeMotors();
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, -7, false);
+  auton.turnTo(45);
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, 18);
+  intk.middleGoal();
+  delay(4000);
+  intk.stopIntakeMotors();
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, 4);
+  auton.moveTo(0, -24, false);
+}
+
+/*void rightSideAuton() {
+  auton.resetCoordinateSystem();
+  intk.storageIntake();
+  auton.moveCurvedPath({{0, 60}, {0, 60}}, 32);
+  auton.resetCoordinateSystem();
+  delay(1000);
+  intk.stopIntakeMotors();
+}*/
+
+// RIGHT SIDE AUTONOMOUS
+void rightSideAuton() {
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, 8);
   auton.turnTo(-88);
   auton.resetCoordinateSystem();
   intk.storageIntake();
   auton.moveCurvedPath({{0, 24}, {0, 10}}, 127);
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 6, 100);
-  delay(900);
+  auton.moveTo(0, 8);
+  delay(1000);
   intk.stopIntakeMotors();
   auton.resetCoordinateSystem();
-  auton.moveTo(0, -7, 117, false);
+  auton.moveTo(0, -7, false);
+  delay(200);
   auton.turnTo(-45);
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 22,367);
+  auton.moveTo(0, 18);
   intk.lowerGoal();
   delay(3000);
   intk.stopIntakeMotors();
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 4, 67);
-  auton.moveTo(0, -24, 400, false);
+  auton.moveTo(0, 4);
+  auton.moveTo(0, -24, false);
 }
 
-void runSkillsAuton() {}
+void runSkillsAuton() {
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, 6);
+  delay(200);
+  auton.turnTo(-88);
+  auton.resetCoordinateSystem();
+  intk.storageIntake();
+  auton.moveCurvedPath({{0, 10}, {0, 24}, {0, 24}, {0, 10}}, 127);
+  delay(1000);
+  intk.stopIntakeMotors();
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, -8, false);
+  auton.turnTo(-135);
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, 18);
+  intk.middleGoal();
+  delay(4000);
+  intk.stopIntakeMotors();
+  auton.moveTo(0, -22, false);
+  auton.turnTo(45);
+  auton.resetCoordinateSystem();
+  intk.storageIntake();
+  auton.moveCurvedPath({{0, 24}, {0, 24}, {0, 10}}, 127);
+  delay(1000);
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, -10, false);
+  auton.turnTo(-90);
+  auton.resetCoordinateSystem();
+  auton.moveCurvedPath({{0, 24}, {0, 24}, {0, 10}}, 127);
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, -10, false);
+  auton.turnTo(-90);
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, 48);
+  auton.turnTo(-135);
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, 22);
+  intk.stopIntakeMotors();
+  intk.lowerGoal();
+  delay(4000);
+  intk.stopIntakeMotors();
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, -24, false);
+}
 
 void autonomous() {
   if (isMatchAuton == true) {
-    int chgAngle = (isRightSide == true) ? 1 : -1;
-    runMatchAuton(chgAngle);
+    if (isRightSide) {
+      rightSideAuton();
+    } else {
+      leftSideAuton();
+    }
   } else if (isMatchAuton == false) {
     runSkillsAuton();
   }
