@@ -58,7 +58,6 @@ public:
 
   // Turns robot to face a specific heading (0–360 degrees)
   void turnTo(double heading) {
-    auto pose = chassis.getPose();
     chassis.turnToHeading(heading, 3000);
     chassis.waitUntilDone();
   }
@@ -70,7 +69,7 @@ public:
 
   // Optional: Curved path between waypoints (absolute)
   void moveCurvedPath(const std::vector<lemlib::Pose> &waypoints,
-                      float speed = 100) {
+                      float speed = 127) {
     for (const auto &point : waypoints) {
       chassis.moveToPoint(point.x, point.y, point.y * (400 / 24),
                           {.maxSpeed = speed});

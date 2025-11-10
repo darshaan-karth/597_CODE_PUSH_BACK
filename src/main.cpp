@@ -81,20 +81,20 @@ void competition_initialize() {}
 // LEFT SIDE AUTONOMOUS
 void leftSideAuton() {
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 6);
-  auton.turnTo(88);
+  auton.moveTo(0, 8);
+  auton.turnTo(88.5);
   auton.resetCoordinateSystem();
   intk.storageIntake();
   auton.moveCurvedPath({{0, 24}, {0, 10}}, 127);
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 6);
-  delay(900);
+  auton.moveTo(0, 9);
+  delay(1000);
   intk.stopIntakeMotors();
   auton.resetCoordinateSystem();
-  auton.moveTo(0, -7, false);
-  auton.turnTo(45);
+  auton.moveTo(0, -8, false);
+  auton.turnTo(46);
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 18);
+  auton.moveTo(0, 14);
   intk.middleGoal();
   delay(4000);
   intk.stopIntakeMotors();
@@ -103,16 +103,43 @@ void leftSideAuton() {
   auton.moveTo(0, -24, false);
 }
 
-/*void rightSideAuton() {
+void rightSideAuton() {
   auton.resetCoordinateSystem();
+  auton.moveTo(0, 6);
+  auton.turnTo(45);
   intk.storageIntake();
-  auton.moveCurvedPath({{0, 60}, {0, 60}}, 32);
   auton.resetCoordinateSystem();
+  auton.moveTo(0, 27);
   delay(1000);
   intk.stopIntakeMotors();
-}*/
+  auton.turnTo(-90);
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, 25);
+  intk.lowerGoal();
+  delay(4000);
+  intk.stopIntakeMotors();
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, -53, false);
+  auton.turnTo(-135);
+  loader.toggleClampLock();
 
-// RIGHT SIDE AUTONOMOUS
+  /*auton.resetCoordinateSystem();
+  auton.moveTo(0, 15);
+  intk.storageIntake();
+  delay(4000);
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, -15, false);
+  auton.turnTo(180);
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, 15);
+  intk.topGoal();
+  delay(4000);
+  intk.stopIntakeMotors();
+  auton.moveTo(0, 0, false);*/
+}
+
+// WORKING RIGHT SIDE AUTONOMOUS
+/*
 void rightSideAuton() {
   auton.resetCoordinateSystem();
   auton.moveTo(0, 8);
@@ -125,18 +152,41 @@ void rightSideAuton() {
   delay(1000);
   intk.stopIntakeMotors();
   auton.resetCoordinateSystem();
-  auton.moveTo(0, -7, false);
+  auton.moveTo(0, -8, false);
   delay(200);
-  auton.turnTo(-45);
+  auton.turnTo(-41);
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 18);
+  auton.moveTo(0, 19);
   intk.lowerGoal();
   delay(3000);
   intk.stopIntakeMotors();
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 4);
+  auton.moveTo(0, 5);
   auton.moveTo(0, -24, false);
+
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, -31, false);
+  delay(200);
+  auton.turnTo(-135);
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, -5, false);
+  loader.toggleClampLock();
+
+  /////////auton.moveTo(0, 10);
+  intk.storageIntake();
+  delay(4000);
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, -22, false);
+  loader.toggleClampLock();
+  auton.turnTo(180);
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, 22);
+  intk.topGoal();
+  delay(4000);
+  intk.stopIntakeMotors();
+  auton.moveTo(0, 0, false);///////
 }
+*/
 
 void runSkillsAuton() {
   auton.resetCoordinateSystem();
@@ -149,16 +199,18 @@ void runSkillsAuton() {
   delay(1000);
   intk.stopIntakeMotors();
   auton.resetCoordinateSystem();
-  auton.moveTo(0, -8, false);
+  // auton.moveTo(0, -8, false);
   auton.turnTo(-135);
   auton.resetCoordinateSystem();
   auton.moveTo(0, 18);
   intk.middleGoal();
   delay(4000);
   intk.stopIntakeMotors();
-  auton.moveTo(0, -22, false);
+  auton.moveTo(0, 0, false);
   auton.turnTo(45);
   auton.resetCoordinateSystem();
+
+  /*
   intk.storageIntake();
   auton.moveCurvedPath({{0, 24}, {0, 24}, {0, 10}}, 127);
   delay(1000);
@@ -181,6 +233,7 @@ void runSkillsAuton() {
   intk.stopIntakeMotors();
   auton.resetCoordinateSystem();
   auton.moveTo(0, -24, false);
+  */
 }
 
 void autonomous() {
