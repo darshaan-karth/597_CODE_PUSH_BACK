@@ -51,7 +51,7 @@ public:
 
   // Moves robot to an absolute field position (X, Y in inches)
   void moveTo(double x, double y, bool isForward = true) {
-    chassis.moveToPoint(x, y, std::abs(y) * (400.0 / 24.0),
+    chassis.moveToPoint(x, y, std::abs(y) * (420.0 / 24.0),
                         {.forwards = isForward}); // 3 second timeout
     chassis.waitUntilDone();
   }

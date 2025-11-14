@@ -80,7 +80,7 @@ constexpr int8_t back_intake = 10;
  */
 
 // Lateral PID
-constexpr float lateral_kP = 9.5;
+constexpr float lateral_kP = 10.8;
 constexpr float lateral_kI = 0.0;
 constexpr float lateral_kD = 3.5;
 
@@ -92,7 +92,7 @@ constexpr float lateral_largeTime = 0;
 constexpr float lateral_maxVoltage = 12000;
 
 // Angular PID
-constexpr float angular_kP = 2.0;
+constexpr float angular_kP = 2;
 constexpr float angular_kI = 0;
 constexpr float angular_kD = 10.5; //10
 

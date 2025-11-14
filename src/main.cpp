@@ -105,21 +105,24 @@ void leftSideAuton() {
 
 void rightSideAuton() {
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 6);
+  auton.moveTo(0, 8.6);
   auton.turnTo(45);
   intk.storageIntake();
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 27);
+  auton.moveTo(0, 29);
   delay(1000);
+  auton.turnTo(0);
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, -4, false);
   intk.stopIntakeMotors();
   auton.turnTo(-90);
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 25);
+  auton.moveTo(0, 16.5);
   intk.lowerGoal();
   delay(4000);
   intk.stopIntakeMotors();
   auton.resetCoordinateSystem();
-  auton.moveTo(0, -53, false);
+  auton.moveTo(0, -55, false);
   auton.turnTo(-135);
   loader.toggleClampLock();
 
