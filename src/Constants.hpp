@@ -97,8 +97,8 @@ constexpr float angular_kI = 0;
 constexpr float angular_kD = 10.5; //10
 
 constexpr float angular_windupRange = 0;
-constexpr float angular_smallError = 0;
-constexpr float angular_smallTime = 0;
+constexpr float angular_smallError = 0.2;
+constexpr float angular_smallTime = 100;
 constexpr float angular_largeError = 0;
 constexpr float angular_largeTime = 0;
 constexpr float angular_maxVoltage = 12000;

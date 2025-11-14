@@ -58,7 +58,7 @@ public:
 
   // Turns robot to face a specific heading (0–360 degrees)
   void turnTo(double heading) {
-    chassis.turnToHeading(heading, 3000);
+    chassis.turnToHeading(heading, 1000);
     chassis.waitUntilDone();
   }
 

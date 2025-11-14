@@ -109,7 +109,7 @@ void rightSideAuton() {
   auton.turnTo(45);
   intk.storageIntake();
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 29);
+  auton.moveTo(0, 25);
   delay(1000);
   auton.turnTo(0);
   auton.resetCoordinateSystem();
