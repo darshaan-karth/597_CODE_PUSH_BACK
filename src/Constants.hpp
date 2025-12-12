@@ -22,19 +22,19 @@ constexpr int8_t bl_p = -11; // Back Left
 
 constexpr int8_t fr_p = 18;  // Front Right
 constexpr int8_t mr_p = -19; // Middle Right
-constexpr int8_t br_p = 20;  // Back Right
+constexpr int8_t br_p = 17;  // Back Right
 
 // IMU Port
 constexpr int8_t imu_port = 7;
 constexpr int8_t encoder_port = 5;
 
-// Loader Clamp Port
-constexpr unsigned char clamp_p = 'E'; // Port for the Pneumatic clamps
+// Descore Mechanism Port
+constexpr unsigned char descore_p = 'E'; // Port for the Pneumatic descorer
 
 // Intake Motor Ports
-constexpr int8_t frontBottom_intake = 8;
-constexpr int8_t frontTop_intake = 9;
-constexpr int8_t back_intake = 10;
+constexpr int8_t bottomIntakeMotor = 2;
+constexpr int8_t middleScoreMotor = 3;
+constexpr int8_t topScoreMotor = 1;
 
 // ======================
 // == PID Parameters   ==
@@ -85,8 +85,8 @@ constexpr float lateral_kI = 0.0;
 constexpr float lateral_kD = 3.5;
 
 constexpr float lateral_windupRange = 0;
-constexpr float lateral_smallError = 0;
-constexpr float lateral_smallTime = 0;
+constexpr float lateral_smallError = 0.2;
+constexpr float lateral_smallTime = 100;
 constexpr float lateral_largeError = 0;
 constexpr float lateral_largeTime = 0;
 constexpr float lateral_maxVoltage = 12000;
@@ -119,8 +119,8 @@ inline lemlib::ControllerSettings
                angular_largeTime, angular_maxVoltage);
 
 pros::Rotation horizontal_encoder(encoder_port);
-inline lemlib::TrackingWheel lateral_tracking(&horizontal_encoder,
-                                              lemlib::Omniwheel::NEW_325, 0);
+inline lemlib::TrackingWheel horizontal_tracking(&horizontal_encoder,
+                                              lemlib::Omniwheel::NEW_325, -1);
 
 // ======================
 // == Drive Control    ==

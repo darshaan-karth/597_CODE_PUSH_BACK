@@ -3,7 +3,7 @@
 #include "Constants.hpp"
 #include "Systems/DriveTrain.hpp"
 #include "Systems/Intake.hpp"
-#include "Systems/LoaderClamp.hpp"
+#include "Systems/DescoreMech.hpp"
 #include "lemlib-tarball/api.hpp"
 #include "pros/misc.h"
 #include "pros/rtos.hpp"
@@ -13,7 +13,7 @@ using namespace pros;
 
 DriveTrain dt = DriveTrain();
 Intake intk = Intake();
-LoaderClamp loader = LoaderClamp();
+DescoreMech descore = DescoreMech();
 ChassisAuton auton = ChassisAuton();
 Controller master(E_CONTROLLER_MASTER);
 
@@ -40,10 +40,10 @@ void initialize() {
 
   pros::Task statusTask([] {
     while (true) {
-      pros::lcd::print(0, "X: %.2f", auton.getPoseX());
-      pros::lcd::print(1, "Y: %.2f", auton.getPoseY());
-      pros::lcd::print(2, "H: %.2f", auton.getPoseHeading());
-      pros::delay(50);
+      pros::lcd::print(0, "X: %f", auton.getPoseX());
+      pros::lcd::print(1, "Y: %f", auton.getPoseY());
+      pros::lcd::print(2, "H: %f", auton.getPoseHeading());
+      pros::delay(20);
     }
   });
 }
@@ -124,7 +124,7 @@ void rightSideAuton() {
   auton.resetCoordinateSystem();
   auton.moveTo(0, -55, false);
   auton.turnTo(-135);
-  loader.toggleClampLock();
+  descore.toggleDescore();
 
   /*auton.resetCoordinateSystem();
   auton.moveTo(0, 15);
@@ -265,7 +265,7 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-  int intakeTime = 0, loaderTime = 0;
+  int intakeTime = 0, descoreTime = 0;
 
   while (true) {
     // Calling DriveTrain System
@@ -273,22 +273,28 @@ void opcontrol() {
 
     // Intake System to spin, spinFast, spinRev, or stop
     if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
+      descore.toggleDescoreOff();
       intk.topGoal();
-    } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+    } 
+    else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
+      descore.toggleDescoreOn();
       intk.storageIntake();
-    } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+    } 
+    else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
       intk.middleGoal();
-    } else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+    } 
+    else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
       intk.lowerGoal();
-    } else {
+    } 
+    else {
       intk.stopIntakeMotors();
     }
 
-    // LoaderClmap System for accessing Loaders
+    // Descore System 
     if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A) &&
-        (millis() - loaderTime > 500)) {
-      loader.toggleClampLock();
-      loaderTime = millis();
+        (millis() - descoreTime > 500)) {
+      descore.toggleDescore();
+      descoreTime = millis();
     };
 
     delay(20); // Run for 20 ms then update
