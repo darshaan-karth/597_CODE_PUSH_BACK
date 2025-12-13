@@ -25,8 +25,8 @@ constexpr int8_t mr_p = -19; // Middle Right
 constexpr int8_t br_p = 17;  // Back Right
 
 // IMU Port
-constexpr int8_t imu_port = 7;
-constexpr int8_t encoder_port = 5;
+constexpr int8_t imu_port = 5;
+constexpr int8_t encoder_port = 4;
 
 // Descore Mechanism Port
 constexpr unsigned char descore_p = 'E'; // Port for the Pneumatic descorer
