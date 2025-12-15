@@ -2,15 +2,17 @@
 
 #include "../Constants.hpp"
 #include "pros/adi.hpp"
-
+#include "Intake.hpp"
 
 using namespace pros::adi;
 using namespace Constants;
 
 class DescoreMech {
 private:
-  DigitalOut descore = DigitalOut(descore_p, false);
-  bool stateDescore = false;
+bool stateDescore = false;
+  DigitalOut descore = DigitalOut(descore_p, stateDescore);
+  Intake intk = Intake();
+  
 
 public:
   DescoreMech() {}
@@ -21,12 +23,17 @@ public:
   }
 
   void toggleDescoreOn() {
-    stateDescore = true;
+    stateDescore = false;
     descore.set_value(stateDescore);
   }
   
   void toggleDescoreOff() {
-    stateDescore = false;
+    if (stateDescore == false) {
+      intk.lowerGoal();
+      delay(100);
+      intk.stopIntakeMotors();
+    }
+    stateDescore = true;
     descore.set_value(stateDescore);
   }
 };

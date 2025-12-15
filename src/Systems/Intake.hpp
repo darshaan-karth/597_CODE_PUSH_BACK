@@ -29,7 +29,7 @@ struct Intake {
     }
 
     inline void storageIntake(){
-        bottomIntakeMotor_motor.move(127);
+        bottomIntakeMotor_motor.move(227);
         middleScoreMotor_motor.move(-127);
         topScoreMotor_motor.move(64);
     }
@@ -43,7 +43,7 @@ struct Intake {
     inline void middleGoal(){
         bottomIntakeMotor_motor.move(127);
         middleScoreMotor_motor.move(-127);
-        topScoreMotor_motor.move(-127);
+        topScoreMotor_motor.move(-64);
     }
 
     inline void topGoal(){

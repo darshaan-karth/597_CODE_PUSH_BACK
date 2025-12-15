@@ -4,6 +4,7 @@
 #include "Systems/DriveTrain.hpp"
 #include "Systems/Intake.hpp"
 #include "Systems/DescoreMech.hpp"
+#include "Systems/matchLoad.hpp"
 #include "lemlib-tarball/api.hpp"
 #include "pros/misc.h"
 #include "pros/rtos.hpp"
@@ -14,6 +15,7 @@ using namespace pros;
 DriveTrain dt = DriveTrain();
 Intake intk = Intake();
 DescoreMech descore = DescoreMech();
+matchLoad loader = matchLoad();
 ChassisAuton auton = ChassisAuton();
 Controller master(E_CONTROLLER_MASTER);
 
@@ -78,45 +80,62 @@ void competition_initialize() {}
  * from where it left off.
  */
 
+ void testAuton(){
+  auton.resetCoordinateSystem();
+  //auton.moveCurvedPath({{0, 3}, {0, 3}, {0, 4}, {0, 5}}, 64);
+  auton.moveTo(0, 14, 64);//8.6
+  auton.turnTo(45);
+  intk.storageIntake();
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, 23);
+  delay(1000);
+  auton.turnTo(0);
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, -7, false);
+  intk.stopIntakeMotors();
+  auton.turnTo(-90);
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, 16.5);
+  intk.lowerGoal();
+  delay(4000);
+  intk.stopIntakeMotors();
+ }
+
 // LEFT SIDE AUTONOMOUS
 void leftSideAuton() {
   //TOP GOAL SCORING AUTONOMOUS
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 42);
+  auton.moveTo(0, 40);
+  delay(200);
   auton.turnTo(-90);
   auton.resetCoordinateSystem();
-  intk.storageIntake();
-  auton.moveTo(0, 18);
-  delay(1000);
-  intk.stopIntakeMotors();
-  auton.moveTo(0, -20, false);
+  auton.moveTo(0, -16, false);
   intk.topGoal();
-  delay(4000);
+  delay(2000);
   intk.stopIntakeMotors();
   auton.resetCoordinateSystem();
   auton.moveTo(0, 24);
+  auton.turnTo(-135);
 }
 
 void rightSideAuton() {
-  //TOP GOAL SCORING AUTONOMOUS
-  auton.resetCoordinateSystem();
-  auton.moveTo(0, 42);
-  auton.turnTo(90);
   auton.resetCoordinateSystem();
   intk.storageIntake();
-  auton.moveTo(0, 18);
+  auton.moveTo(0, 16.5);//8.6
+  auton.turnTo(45);
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, 23, true, 64);
   delay(1000);
+  auton.turnTo(0);
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, -8, false);
+  auton.turnTo(-93);
+  auton.resetCoordinateSystem();
   intk.stopIntakeMotors();
-  auton.moveTo(0, -20, false);
-  intk.topGoal();
+  auton.moveTo(0, 18.5);
+  intk.lowerGoal();
   delay(4000);
   intk.stopIntakeMotors();
-  auton.resetCoordinateSystem();
-  auton.moveTo(0, 24);
-
-  auton.turnTo(135);
-  auton.resetCoordinateSystem();
-  auton.moveTo(0, 6);
 }
 
 void runSkillsAuton() {
@@ -168,7 +187,9 @@ void runSkillsAuton() {
 }
 
 void autonomous() {
-  if (isMatchAuton == true) {
+  if (isTestAuton) {
+    testAuton();
+  } else if (isMatchAuton == true) {
     if (isRightSide) {
       rightSideAuton();
     } else {
@@ -193,7 +214,8 @@ void autonomous() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-  int intakeTime = 0, descoreTime = 0;
+  int intakeTime = 0, descoreTime = 0, loaderTime = 0;
+  bool isIntaked = false;
 
   while (true) {
     // Calling DriveTrain System
@@ -203,12 +225,20 @@ void opcontrol() {
     if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R1)) {
       descore.toggleDescoreOff();
       intk.topGoal();
+      isIntaked = true;
     } 
     else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_R2)) {
       descore.toggleDescoreOn();
       intk.storageIntake();
+      isIntaked = true;
     } 
     else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L1)) {
+      if (isIntaked){
+        intk.lowerGoal();
+        delay(100);
+        intk.stopIntakeMotors();
+        isIntaked = false;
+      }
       intk.middleGoal();
     } 
     else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
@@ -219,10 +249,16 @@ void opcontrol() {
     }
 
     // Descore System 
-    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A) &&
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_B) &&
         (millis() - descoreTime > 500)) {
       descore.toggleDescore();
       descoreTime = millis();
+    };
+
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_A) &&
+        (millis() - loaderTime > 500)) {
+      loader.toggleLoader();
+      loaderTime = millis();
     };
 
     delay(20); // Run for 20 ms then update

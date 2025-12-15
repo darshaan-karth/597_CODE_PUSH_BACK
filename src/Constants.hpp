@@ -30,6 +30,7 @@ constexpr int8_t encoder_port = 4;
 
 // Descore Mechanism Port
 constexpr unsigned char descore_p = 'E'; // Port for the Pneumatic descorer
+constexpr unsigned char loader_p = 'A'; // Port for the Pneumatic loader
 
 // Intake Motor Ports
 constexpr int8_t bottomIntakeMotor = 2;
@@ -134,4 +135,6 @@ constexpr uint8_t threshold = 9; // Joystick deadzone (7–10%)
 
 constexpr bool isMatchAuton = true;
 constexpr bool isRightSide = true;
+
+constexpr bool isTestAuton = false;
 } // namespace Constants
