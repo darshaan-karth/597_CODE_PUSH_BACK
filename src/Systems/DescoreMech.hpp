@@ -9,7 +9,7 @@ using namespace Constants;
 
 class DescoreMech {
 private:
-bool stateDescore = false;
+  bool stateDescore = true;
   DigitalOut descore = DigitalOut(descore_p, stateDescore);
   Intake intk = Intake();
   

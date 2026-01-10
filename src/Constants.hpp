@@ -135,6 +135,4 @@ constexpr uint8_t threshold = 9; // Joystick deadzone (7–10%)
 
 constexpr bool isMatchAuton = true;
 constexpr bool isRightSide = true;
-
-constexpr bool isTestAuton = false;
 } // namespace Constants

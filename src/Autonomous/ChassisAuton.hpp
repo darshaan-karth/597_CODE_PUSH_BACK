@@ -25,7 +25,7 @@ public:
                                                     11.75, // track width
                                                     lemlib::Omniwheel::NEW_325,
                                                     600, // wheel travel
-                                                    3   // higher  values make the robot move faster but causes more overshoot on turns
+                                                    1   // higher  values make the robot move faster but causes more overshoot on turns
                                                     ),
         odomSensors(nullptr, nullptr, &horizontal_tracking, nullptr, &imu),
         chassis(drivetrain, lateralPID, angularPID, odomSensors, nullptr,
@@ -50,7 +50,7 @@ public:
   }
 
   // Moves robot to an absolute field position (X, Y in inches)
-  void moveTo(double x, double y, bool isForward = true, float speed = 127) {
+  void moveTo(double x, double y, float speed = 127, bool isForward = true) {
     chassis.moveToPoint(x, y, std::abs(y) * (420.0 / 24.0) * (127 / speed),
                         {.forwards = isForward, .maxSpeed = speed}); // timeout is adjusted based on distance and speed to ensure it completes in time
     chassis.waitUntilDone();

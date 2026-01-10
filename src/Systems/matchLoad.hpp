@@ -19,4 +19,14 @@ public:
     stateLoader = !stateLoader;
     loader.set_value(stateLoader);
   }
+
+  void toggleLoaderOn() {
+    stateLoader = true;
+    loader.set_value(stateLoader);
+  }
+
+  void toggleLoaderOff() {
+    stateLoader = false;
+    loader.set_value(stateLoader);
+  }
 };

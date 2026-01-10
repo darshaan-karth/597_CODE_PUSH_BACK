@@ -80,27 +80,6 @@ void competition_initialize() {}
  * from where it left off.
  */
 
- void testAuton(){
-  auton.resetCoordinateSystem();
-  //auton.moveCurvedPath({{0, 3}, {0, 3}, {0, 4}, {0, 5}}, 64);
-  auton.moveTo(0, 14, 64);//8.6
-  auton.turnTo(45);
-  intk.storageIntake();
-  auton.resetCoordinateSystem();
-  auton.moveTo(0, 23);
-  delay(1000);
-  auton.turnTo(0);
-  auton.resetCoordinateSystem();
-  auton.moveTo(0, -7, false);
-  intk.stopIntakeMotors();
-  auton.turnTo(-90);
-  auton.resetCoordinateSystem();
-  auton.moveTo(0, 16.5);
-  intk.lowerGoal();
-  delay(4000);
-  intk.stopIntakeMotors();
- }
-
 // LEFT SIDE AUTONOMOUS
 void leftSideAuton() {
   //TOP GOAL SCORING AUTONOMOUS
@@ -119,23 +98,46 @@ void leftSideAuton() {
 }
 
 void rightSideAuton() {
-  auton.resetCoordinateSystem();
-  intk.storageIntake();
-  auton.moveTo(0, 16.5);//8.6
+  /*auton.resetCoordinateSystem();
+  auton.moveTo(0, 14, 64);
   auton.turnTo(45);
+  intk.storageIntake();
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 23, true, 64);
+  auton.moveTo(0, 23, 64);
   delay(1000);
   auton.turnTo(0);
   auton.resetCoordinateSystem();
-  auton.moveTo(0, -8, false);
-  auton.turnTo(-93);
-  auton.resetCoordinateSystem();
+  auton.moveTo(0, -7, 127, false);
   intk.stopIntakeMotors();
-  auton.moveTo(0, 18.5);
+  delay(100);
+  auton.turnTo(-90);
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, 16.5);
   intk.lowerGoal();
   delay(4000);
   intk.stopIntakeMotors();
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, 4);
+  auton.moveTo(0, -4, 127, false);*/
+
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, 36);
+  auton.turnTo(90);
+  loader.toggleLoaderOn();
+  intk.storageIntake();
+  auton.moveTo(0, 20, 64);
+  delay(2000);
+  auton.moveTo(0, 0, 127, false);
+  loader.toggleLoaderOff();
+  intk.stopIntakeMotors();
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, 20, 64);
+  intk.topGoal();
+  delay(4000);
+  intk.stopIntakeMotors();
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, -5, 127, false);
+  auton.moveTo(0, 10);
 }
 
 void runSkillsAuton() {
@@ -187,9 +189,7 @@ void runSkillsAuton() {
 }
 
 void autonomous() {
-  if (isTestAuton) {
-    testAuton();
-  } else if (isMatchAuton == true) {
+  if (isMatchAuton == true) {
     if (isRightSide) {
       rightSideAuton();
     } else {
