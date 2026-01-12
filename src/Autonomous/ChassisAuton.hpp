@@ -25,9 +25,9 @@ public:
                                                     11.75, // track width
                                                     lemlib::Omniwheel::NEW_325,
                                                     600, // wheel travel
-                                                    1   // higher  values make the robot move faster but causes more overshoot on turns
+                                                    0.25   // higher  values make the robot move faster but causes more overshoot on turns
                                                     ),
-        odomSensors(nullptr, nullptr, &horizontal_tracking, nullptr, &imu),
+        odomSensors(nullptr, nullptr, nullptr, nullptr, &imu),
         chassis(drivetrain, lateralPID, angularPID, odomSensors, nullptr,
                 nullptr) {}
 

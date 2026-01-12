@@ -9,7 +9,7 @@ using namespace Constants;
 
 class DescoreMech {
 private:
-  bool stateDescore = true;
+  bool stateDescore = false;
   DigitalOut descore = DigitalOut(descore_p, stateDescore);
   Intake intk = Intake();
   
@@ -23,17 +23,17 @@ public:
   }
 
   void toggleDescoreOn() {
-    stateDescore = false;
+    stateDescore = true;
     descore.set_value(stateDescore);
   }
   
   void toggleDescoreOff() {
-    if (stateDescore == false) {
+    if (stateDescore == true) {
       intk.lowerGoal();
-      delay(100);
+      delay(150);
       intk.stopIntakeMotors();
     }
-    stateDescore = true;
+    stateDescore = false;
     descore.set_value(stateDescore);
   }
 };
