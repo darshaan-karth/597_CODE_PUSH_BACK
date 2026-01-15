@@ -37,7 +37,11 @@ struct Intake {
     inline void lowerGoal(){
         bottomIntakeMotor_motor.move(-127);
         middleScoreMotor_motor.move(127);
-        topScoreMotor_motor.move(-127);
+        topScoreMotor_motor.move(-64);
+    }
+
+    inline bool isIntaking(){
+        return bottomIntakeMotor_motor.get_actual_velocity() > 5;
     }
 
     inline void middleGoal(){

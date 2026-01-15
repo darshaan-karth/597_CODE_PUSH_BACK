@@ -45,6 +45,7 @@ void initialize() {
       pros::lcd::print(0, "X: %f", auton.getPoseX());
       pros::lcd::print(1, "Y: %f", auton.getPoseY());
       pros::lcd::print(2, "H: %f", auton.getPoseHeading());
+      pros::lcd::print(3, "Intake: %s", intk.isIntaking());
       pros::delay(20);
     }
   });
@@ -107,71 +108,65 @@ void leftSideAuton() {
 
 void rightSideAuton() {
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 14, 64);
+  auton.moveTo(0, 13, 64);
   auton.turnTo(45);
   descore.toggleDescoreOn();
   intk.storageIntake();
   auton.resetCoordinateSystem();
   delay(100);
-  auton.moveTo(0, 23, 32);
+  auton.moveTo(0, 24, 32);
   delay(1500);
-  auton.turnTo(0);
   auton.resetCoordinateSystem();
-  auton.moveTo(0, -12, 127, false);
+  auton.moveTo(0, -14.8, 127, false);
   intk.stopIntakeMotors();
   delay(100);
   auton.turnTo(-90);
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 16.6);
-  auton.turnTo(0);
-  delay(100);
+  auton.moveTo(0, 17);
   intk.lowerGoal();
   delay(4000);
   intk.stopIntakeMotors();
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 4);
-  auton.moveTo(0, -4, 127, false);
 }
 
 void runSkillsAuton() {
   //Lower Goal Scoring
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 14, 64);
+  auton.moveTo(0, 13, 64);
   auton.turnTo(45);
   descore.toggleDescoreOn();
   intk.storageIntake();
   auton.resetCoordinateSystem();
   delay(100);
-  auton.moveTo(0, 23, 32);
-  delay(1000);
-  auton.turnTo(0);
+  auton.moveTo(0, 24, 32);
+  delay(1500);
   auton.resetCoordinateSystem();
-  auton.moveTo(0, -12, 127, false);
+  auton.moveTo(0, -14.8, 127, false);
   intk.stopIntakeMotors();
   delay(100);
   auton.turnTo(-90);
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 16.5);
-  auton.turnTo(0);
-  delay(100);
+  auton.moveTo(0, 17);
   intk.lowerGoal();
   delay(4000);
   intk.stopIntakeMotors();
   auton.resetCoordinateSystem();
 
   //Parking 
-  auton.moveTo(0, -16.5, 127, false);
-  delay(100);
-  auton.turnTo(0);
+  auton.moveTo(0, -16.6, 127, false);
   auton.resetCoordinateSystem();
   auton.turnTo(45);
   auton.resetCoordinateSystem();
-  auton.moveTo(0, -44, 127, false);
+  auton.moveTo(0, -40, 127, false);
+  auton.resetCoordinateSystem();
+  auton.moveTo(0, 5);
   delay(100);
-  auton.turnTo(0);
-  delay(100);
-  auton.turnTo(-90);
-  auton.moveTo(0, 36);
+  auton.turnTo(-110);
+  auton.resetCoordinateSystem();
+  intk.lowerGoal();
+  auton.moveTo(0, 70, 227);
+  delay(4000);
+  intk.stopIntakeMotors();
 
   /*auton.resetCoordinateSystem();
   auton.moveTo(0, 14, 64);

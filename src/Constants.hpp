@@ -83,7 +83,7 @@ constexpr int8_t topScoreMotor = 1;
 // Lateral PID
 constexpr float lateral_kP = 10.8;
 constexpr float lateral_kI = 0.0;
-constexpr float lateral_kD = 3.5;
+constexpr float lateral_kD = 5;//3.5
 
 constexpr float lateral_windupRange = 0;
 constexpr float lateral_smallError = 0.2;
@@ -93,12 +93,12 @@ constexpr float lateral_largeTime = 0;
 constexpr float lateral_maxVoltage = 12000;
 
 // Angular PID
-constexpr float angular_kP = 2;
+constexpr float angular_kP = 3.4;
 constexpr float angular_kI = 0;
-constexpr float angular_kD = 10.5; //10
+constexpr float angular_kD = 20; //10.5
 
 constexpr float angular_windupRange = 0;
-constexpr float angular_smallError = 0.2;
+constexpr float angular_smallError = 0.1;
 constexpr float angular_smallTime = 100;
 constexpr float angular_largeError = 0;
 constexpr float angular_largeTime = 0;

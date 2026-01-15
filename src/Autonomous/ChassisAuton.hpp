@@ -51,14 +51,17 @@ public:
 
   // Moves robot to an absolute field position (X, Y in inches)
   void moveTo(double x, double y, float speed = 127, bool isForward = true) {
-    chassis.moveToPoint(x, y, std::abs(y) * (420.0 / 24.0) * (127 / speed),
+    chassis.moveToPoint(x, y, std::abs(y) * (500.0 / 24.0) * (127 / speed),
                         {.forwards = isForward, .maxSpeed = speed}); // timeout is adjusted based on distance and speed to ensure it completes in time
+    chassis.waitUntilDone();
+    delay(50);
+    chassis.turnToHeading(0, 1000, {.maxSpeed = 90});
     chassis.waitUntilDone();
   }
 
   // Turns robot to face a specific heading (0–360 degrees)
   void turnTo(double heading) {
-    chassis.turnToHeading(heading, 1000);
+    chassis.turnToHeading(heading, 1000, {.maxSpeed = 90});
     chassis.waitUntilDone();
   }
 
@@ -71,7 +74,7 @@ public:
   void moveCurvedPath(const std::vector<lemlib::Pose> &waypoints,
                       float speed = 127) {
     for (const auto &point : waypoints) {
-      chassis.moveToPoint(point.x, point.y, point.y * (400 / 24),
+      chassis.moveToPoint(point.x, point.y, point.y * (500.0 / 24.0),
                           {.maxSpeed = speed});
       chassis.waitUntilDone();
     }
