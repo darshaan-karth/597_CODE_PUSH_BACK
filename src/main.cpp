@@ -8,6 +8,7 @@
 #include "lemlib-tarball/api.hpp"
 #include "pros/misc.h"
 #include "pros/rtos.hpp"
+#include <cstdio>
 
 using namespace Constants;
 using namespace pros;
@@ -18,6 +19,7 @@ DescoreMech descore = DescoreMech();
 matchLoad loader = matchLoad();
 ChassisAuton auton = ChassisAuton();
 Controller master(E_CONTROLLER_MASTER);
+pros::Task* statusTask = nullptr;
 
 ASSET(blueRight_txt);
 lemlib_tarball::Decoder BLUE_RIGHT(blueRight_txt);
@@ -40,13 +42,15 @@ void initialize() {
                    master.get_analog(E_CONTROLLER_ANALOG_RIGHT_X));
   };
 
-  pros::Task statusTask([] {
+  statusTask = new pros::Task([] {
     while (true) {
       pros::lcd::print(0, "X: %f", auton.getPoseX());
       pros::lcd::print(1, "Y: %f", auton.getPoseY());
       pros::lcd::print(2, "H: %f", auton.getPoseHeading());
-      pros::lcd::print(3, "Intake: %s", intk.isIntaking());
-      pros::delay(20);
+      pros::lcd::print(3, "Current: %ld mA", intk.getMotorCurrent());
+      pros::lcd::print(4, "Middle Stalled: %s", intk.isMiddleMotorStalled() ? "TRUE" : "No");
+      pros::lcd::print(5, "Bottom Stalled: %s", intk.isBottomMotorStalled() ? "TRUE" : "No");
+      pros::delay(100);
     }
   });
 }
@@ -84,26 +88,25 @@ void competition_initialize() {}
 // LEFT SIDE AUTONOMOUS
 void leftSideAuton() {
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 14, 64);
+  auton.moveTo(0, 13, 64);
   auton.turnTo(-45);
+  descore.toggleDescoreOn();
   intk.storageIntake();
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 23, 64);
-  delay(1000);
-  auton.turnTo(0);
+  delay(100);
+  auton.moveTo(0, 24, 32);
+  delay(1500);
   auton.resetCoordinateSystem();
-  auton.moveTo(0, -7, 127, false);
+  auton.moveTo(0, -14.8, 127, false);
   intk.stopIntakeMotors();
   delay(100);
-  auton.turnTo(90);
+  auton.turnTo(-90);
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 16.5);
-  intk.lowerGoal();
+  auton.moveTo(0, 17);
+  intk.middleGoal();
   delay(4000);
   intk.stopIntakeMotors();
   auton.resetCoordinateSystem();
-  auton.moveTo(0, 4);
-  auton.moveTo(0, -4, 127, false);
 }
 
 void rightSideAuton() {
@@ -167,90 +170,6 @@ void runSkillsAuton() {
   auton.moveTo(0, 70, 227);
   delay(4000);
   intk.stopIntakeMotors();
-
-  /*auton.resetCoordinateSystem();
-  auton.moveTo(0, 14, 64);
-  auton.turnTo(45);
-  descore.toggleDescoreOn();
-  intk.storageIntake();
-  auton.resetCoordinateSystem();
-  delay(100);
-  auton.moveTo(0, 23, 32);
-  delay(1000);
-  auton.turnTo(0);
-  auton.resetCoordinateSystem();
-  auton.moveTo(0, -9, 127, false);
-  delay(100);
-  auton.turnTo(-46);
-  auton.resetCoordinateSystem();
-  auton.moveTo(0, 48);
-  delay(100);
-  auton.turnTo(0);
-  delay(500);
-  intk.stopIntakeMotors();
-  auton.resetCoordinateSystem();
-  auton.turnTo(45);
-  auton.resetCoordinateSystem();
-  auton.moveTo(0, -16.75, 127, false);
-  auton.turnTo(0);
-  intk.middleGoal();
-  delay(4000);
-  auton.resetCoordinateSystem();
-  auton.moveTo(0, 16.75);
-  auton.turnTo(0);
-  auton.resetCoordinateSystem();
-  auton.turnTo(-45);
-  auton.moveTo(0, 44);
-  auton.resetCoordinateSystem();
-  auton.turnTo(90);
-  intk.storageIntake();
-  auton.moveTo(0, 28);*/
-
-  /*auton.resetCoordinateSystem();
-  auton.moveTo(0, 6);
-  delay(200);
-  auton.turnTo(-88);
-  auton.resetCoordinateSystem();
-  intk.storageIntake();
-  auton.moveCurvedPath({{0, 10}, {0, 24}, {0, 24}, {0, 10}}, 127);
-  delay(1000);
-  intk.stopIntakeMotors();
-  auton.resetCoordinateSystem();
-  // auton.moveTo(0, -8, false);
-  auton.turnTo(-135);
-  auton.resetCoordinateSystem();
-  auton.moveTo(0, 18);
-  intk.middleGoal();
-  delay(4000);
-  intk.stopIntakeMotors();
-  auton.moveTo(0, 0, false);
-  auton.turnTo(45);
-  auton.resetCoordinateSystem();*/
-
-  /*
-  intk.storageIntake();
-  auton.moveCurvedPath({{0, 24}, {0, 24}, {0, 10}}, 127);
-  delay(1000);
-  auton.resetCoordinateSystem();
-  auton.moveTo(0, -10, false);
-  auton.turnTo(-90);
-  auton.resetCoordinateSystem();
-  auton.moveCurvedPath({{0, 24}, {0, 24}, {0, 10}}, 127);
-  auton.resetCoordinateSystem();
-  auton.moveTo(0, -10, false);
-  auton.turnTo(-90);
-  auton.resetCoordinateSystem();
-  auton.moveTo(0, 48);
-  auton.turnTo(-135);
-  auton.resetCoordinateSystem();
-  auton.moveTo(0, 22);
-  intk.stopIntakeMotors();
-  intk.lowerGoal();
-  delay(4000);
-  intk.stopIntakeMotors();
-  auton.resetCoordinateSystem();
-  auton.moveTo(0, -24, false);
-  */
 }
 
 void autonomous() {
@@ -307,6 +226,7 @@ void opcontrol() {
       intk.middleGoal();
     } 
     else if (master.get_digital(pros::E_CONTROLLER_DIGITAL_L2)) {
+      descore.toggleDescoreOn();
       intk.lowerGoal();
     } 
     else {

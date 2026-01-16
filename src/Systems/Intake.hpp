@@ -34,14 +34,42 @@ struct Intake {
         topScoreMotor_motor.move(64);
     }
 
-    inline void lowerGoal(){
+    /*inline void lowerGoal(){
         bottomIntakeMotor_motor.move(-127);
         middleScoreMotor_motor.move(127);
-        topScoreMotor_motor.move(-64);
+        topScoreMotor_motor.move(-127);
+    }*/
+
+    inline int32_t getMotorCurrent(){
+        // Returns the current draw from the middle intake motor in mA
+        return bottomIntakeMotor_motor.get_current_draw();
     }
 
-    inline bool isIntaking(){
-        return bottomIntakeMotor_motor.get_actual_velocity() > 5;
+    inline bool isMiddleMotorStalled(int32_t currentThreshold = 2600){
+        // Detects if middle intake motor is drawing high current (stalled/blocked)
+        // Returns true if motor is drawing significant current
+        int32_t middleCurrent = middleScoreMotor_motor.get_current_draw();
+        
+        return (abs(middleCurrent) > currentThreshold);
+    }
+
+    inline bool isBottomMotorStalled(int32_t currentThreshold = 3300){
+        // Detects if bottom intake motor is drawing high current (stalled/blocked)
+        // Returns true if motor is drawing significant current
+        int32_t bottomCurrent = bottomIntakeMotor_motor.get_current_draw();
+
+        return (abs(bottomCurrent) > currentThreshold);
+    }
+
+    inline void lowerGoal(){
+        if (isMiddleMotorStalled() || isBottomMotorStalled()){
+            storageIntake();
+            delay(100);
+            stopIntakeMotors();
+        }
+        bottomIntakeMotor_motor.move(-127);
+        middleScoreMotor_motor.move(127);
+        topScoreMotor_motor.move(-127);
     }
 
     inline void middleGoal(){
