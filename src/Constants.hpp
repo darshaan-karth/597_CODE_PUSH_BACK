@@ -26,7 +26,7 @@ constexpr int8_t br_p = 17;  // Back Right
 
 // IMU Port
 constexpr int8_t imu_port = 5;
-constexpr int8_t encoder_port = 4;
+constexpr int8_t vertical_encoder_port = 4;
 
 // Descore Mechanism Port
 constexpr unsigned char descore_p = 'E'; // Port for the Pneumatic descorer
@@ -119,9 +119,8 @@ inline lemlib::ControllerSettings
                angular_smallError, angular_smallTime, angular_largeError,
                angular_largeTime, angular_maxVoltage);
 
-pros::Rotation horizontal_encoder(encoder_port);
-inline lemlib::TrackingWheel horizontal_tracking(&horizontal_encoder,
-                                              lemlib::Omniwheel::NEW_325, -1);
+pros::Rotation vertical_encoder(vertical_encoder_port);
+inline lemlib::TrackingWheel vertical_tracking(&vertical_encoder, lemlib::Omniwheel::NEW_2, -1);
 
 // ======================
 // == Drive Control    ==

@@ -25,18 +25,15 @@ public:
                                                     11.75, // track width
                                                     lemlib::Omniwheel::NEW_325,
                                                     600, // wheel travel
-                                                    0.2   // higher  values make the robot move faster but causes more overshoot on turns
+                                                    0.1   // higher  values make the robot move faster but causes more overshoot on turns
                                                     ),
-        odomSensors(nullptr, nullptr, nullptr, nullptr, &imu),
+        odomSensors(&vertical_tracking, nullptr, nullptr, nullptr, &imu),
         chassis(drivetrain, lateralPID, angularPID, odomSensors, nullptr,
                 nullptr) {}
 
   void initialize() {
-    /*imu.reset();
-    while (imu.is_calibrating())
-      pros::delay(10);*/
     chassis.calibrate();
-    chassis.setPose(0, 0, 0); // Start pose (0,0), facing forward (0°)
+    chassis.setPose(0, 0, 0);
   }
 
   double getPoseX() { return chassis.getPose().x; }
@@ -51,10 +48,9 @@ public:
 
   // Moves robot to an absolute field position (X, Y in inches)
   void moveTo(double x, double y, float speed = 127, bool isForward = true) {
-    chassis.moveToPoint(x, y, std::abs(y) * (500.0 / 24.0) * (127 / speed),
-                        {.forwards = isForward, .maxSpeed = speed}); // timeout is adjusted based on distance and speed to ensure it completes in time
+    chassis.moveToPoint(x, y, std::abs(y) * (500.0 / 24.0) * (127 / speed), {.forwards = isForward, .maxSpeed = speed});
     chassis.waitUntilDone();
-    delay(50);
+    delay(20);
     chassis.turnToHeading(0, 1000, {.maxSpeed = 90});
     chassis.waitUntilDone();
   }
@@ -63,20 +59,5 @@ public:
   void turnTo(double heading) {
     chassis.turnToHeading(heading, 1000, {.maxSpeed = 90});
     chassis.waitUntilDone();
-  }
-
-  void swingTo(double heading, DriveSide side, int timeout = 1000) {
-    chassis.swingToHeading(heading, side, timeout, {.maxSpeed = 60});
-    chassis.waitUntilDone();
-  }
-
-  // Optional: Curved path between waypoints (absolute)
-  void moveCurvedPath(const std::vector<lemlib::Pose> &waypoints,
-                      float speed = 127) {
-    for (const auto &point : waypoints) {
-      chassis.moveToPoint(point.x, point.y, point.y * (500.0 / 24.0),
-                          {.maxSpeed = speed});
-      chassis.waitUntilDone();
-    }
   }
 };

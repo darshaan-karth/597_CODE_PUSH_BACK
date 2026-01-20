@@ -1,5 +1,6 @@
 #pragma once
 
+#include "DescoreMech.hpp"
 #include "../Constants.hpp"
 #include "pros/motors.h"
 
@@ -8,9 +9,11 @@ using namespace pros;
 
 struct Intake {
     // Initalizing Intake Motors
-    Motor bottomIntakeMotor_motor = Motor(bottomIntakeMotor);
-    Motor middleScoreMotor_motor = Motor(middleScoreMotor);
-    Motor topScoreMotor_motor = Motor(topScoreMotor);
+    pros::v5::Motor bottomIntakeMotor_motor = pros::v5::Motor(bottomIntakeMotor);
+    pros::v5::Motor middleScoreMotor_motor = pros::v5::Motor(middleScoreMotor);
+    pros::v5::Motor topScoreMotor_motor = pros::v5::Motor(topScoreMotor);
+    DescoreMech descore = DescoreMech();
+    bool isIntaked = false;
 
     Intake() {
         bottomIntakeMotor_motor.set_encoder_units(E_MOTOR_ENCODER_COUNTS);
@@ -29,9 +32,14 @@ struct Intake {
     }
 
     inline void storageIntake(){
+        if (!descore.getStateDescore()) {
+            descore.toggleDescoreOn();
+            delay(50);
+        }
         bottomIntakeMotor_motor.move(227);
         middleScoreMotor_motor.move(-127);
-        topScoreMotor_motor.move(64);
+        topScoreMotor_motor.move(127);
+        isIntaked = true;
     }
 
     inline void lowerGoal(){
@@ -40,9 +48,40 @@ struct Intake {
         topScoreMotor_motor.move(-127);
     }
 
-    inline int32_t getMotorCurrent(){
+    inline void middleGoal(){
+        if (isIntaked){
+            lowerGoal();
+            delay(150);
+            stopIntakeMotors();
+            isIntaked = false;
+        }
+        topScoreMotor_motor.move(-127);
+        bottomIntakeMotor_motor.move(127);
+        middleScoreMotor_motor.move(-127);
+    }
+
+    inline void topGoal(){
+        if (descore.getStateDescore()) {
+            lowerGoal();
+            delay(150);
+            stopIntakeMotors();
+            descore.toggleDescoreOff();
+            delay(50);
+        }
+        bottomIntakeMotor_motor.move(127);
+        middleScoreMotor_motor.move(-127);
+        topScoreMotor_motor.move(127);
+        isIntaked = true;
+    }
+
+    inline int32_t getMotorCurrent(int tier = 1){
         // Returns the current draw from the middle intake motor in mA
-        return bottomIntakeMotor_motor.get_current_draw();
+        if (tier == 1)
+            return middleScoreMotor_motor.get_current_draw();
+        else if (tier == 2)
+            return topScoreMotor_motor.get_current_draw();
+        else
+            return bottomIntakeMotor_motor.get_current_draw();
     }
 
     /*inline bool isMiddleMotorStalled(int32_t currentThreshold = 2400){
@@ -71,18 +110,4 @@ struct Intake {
         middleScoreMotor_motor.move(127);
         topScoreMotor_motor.move(-127);
     }*/
-
-    inline void middleGoal(){
-        topScoreMotor_motor.move(-64);
-        delay(100);
-        bottomIntakeMotor_motor.move(127);
-        middleScoreMotor_motor.move(-127);
-        
-    }
-
-    inline void topGoal(){
-        bottomIntakeMotor_motor.move(127);
-        middleScoreMotor_motor.move(-127);
-        topScoreMotor_motor.move(127);
-    }
 };
