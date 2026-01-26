@@ -1,9 +1,6 @@
 #pragma once
 
-#include "lemlib/api.hpp"
 #include "lemlib/chassis/chassis.hpp"
-#include "pros/motor_group.hpp"
-#include "pros/motors.h"
 #include <cmath>
 #include <cstdint>
 
@@ -24,13 +21,14 @@ constexpr int8_t fr_p = 18;  // Front Right
 constexpr int8_t mr_p = -19; // Middle Right
 constexpr int8_t br_p = 17;  // Back Right
 
-// IMU Port
+// Sensor Ports
 constexpr int8_t imu_port = 5;
 constexpr int8_t vertical_encoder_port = 4;
+constexpr int8_t vision_p = 7;
 
 // Descore Mechanism Port
 constexpr unsigned char descore_p = 'E'; // Port for the Pneumatic descorer
-constexpr unsigned char loader_p = 'A'; // Port for the Pneumatic loader
+constexpr unsigned char loader_p = 'A';  // Port for the Pneumatic loader
 
 // Intake Motor Ports
 constexpr int8_t bottomIntakeMotor = 2;
@@ -83,7 +81,7 @@ constexpr int8_t topScoreMotor = 1;
 // Lateral PID
 constexpr float lateral_kP = 10.8;
 constexpr float lateral_kI = 0.0;
-constexpr float lateral_kD = 5;//3.5
+constexpr float lateral_kD = 5; // 3.5
 
 constexpr float lateral_windupRange = 0;
 constexpr float lateral_smallError = 0.2;
@@ -95,7 +93,7 @@ constexpr float lateral_maxVoltage = 12000;
 // Angular PID
 constexpr float angular_kP = 3.4;
 constexpr float angular_kI = 0;
-constexpr float angular_kD = 20; //10.5
+constexpr float angular_kD = 20; // 10.5
 
 constexpr float angular_windupRange = 0;
 constexpr float angular_smallError = 0.1;
@@ -119,8 +117,9 @@ inline lemlib::ControllerSettings
                angular_smallError, angular_smallTime, angular_largeError,
                angular_largeTime, angular_maxVoltage);
 
-pros::Rotation vertical_encoder(vertical_encoder_port);
-inline lemlib::TrackingWheel vertical_tracking(&vertical_encoder, lemlib::Omniwheel::NEW_2, -1);
+inline pros::Rotation vertical_encoder(vertical_encoder_port);
+inline lemlib::TrackingWheel vertical_tracking(&vertical_encoder,
+                                               lemlib::Omniwheel::NEW_2, -1);
 
 // ======================
 // == Drive Control    ==
@@ -129,9 +128,20 @@ inline lemlib::TrackingWheel vertical_tracking(&vertical_encoder, lemlib::Omniwh
 constexpr uint8_t threshold = 9; // Joystick deadzone (7–10%)
 
 // ======================
+// == Color Sort Const ==
+// ======================
+
+// Setting up the signature IDs for blue and red colors
+constexpr int RED_SIG_id = 1;
+constexpr int BLUE_SIG_id = 2;
+constexpr int object_threshold = 0;
+constexpr int NUM_VISION_OBJECTS = 1;
+
+// ======================
 // == Auton Config     ==
 // ======================
 
 constexpr bool isMatchAuton = true;
 constexpr bool isRightSide = true;
+constexpr bool isBlue = true;
 } // namespace Constants
