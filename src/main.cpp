@@ -23,6 +23,7 @@ Controller master(E_CONTROLLER_MASTER);
 pros::Task *statusTask = nullptr;
 pros::Task *visionTaskHandle = nullptr;
 pros::Task *intakeTaskHandle = nullptr;
+pros::Mutex mutex;
 
 // ASSET(blueRight_txt);
 // lemlib_tarball::Decoder BLUE_RIGHT(blueRight_txt);
@@ -59,6 +60,7 @@ void initialize() {
 
   statusTask = new pros::Task([] {
     while (true) {
+      mutex.take();
       pros::lcd::print(0, "X: %f", auton.getPoseX());
       pros::lcd::print(1, "Y: %f", auton.getPoseY());
       pros::lcd::print(2, "H: %f", auton.getPoseHeading());
@@ -69,6 +71,7 @@ void initialize() {
                        colorSort.detect_color() == RED_SIG_id    ? "Red"
                        : colorSort.detect_color() == BLUE_SIG_id ? "Blue"
                                                                  : "None");
+      mutex.give();
       pros::delay(20);
     }
   });

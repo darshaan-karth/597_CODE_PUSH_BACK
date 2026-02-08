@@ -23,7 +23,7 @@ constexpr int8_t br_p = 17;  // Back Right
 
 // Sensor Ports
 constexpr int8_t imu_port = 5;
-constexpr int8_t vertical_encoder_port = 4;
+constexpr int8_t vertical_encoder_port = 16;
 constexpr int8_t vision_p = 7;
 
 // Descore Mechanism Port
@@ -79,8 +79,8 @@ constexpr int8_t topScoreMotor = 1;
  */
 
 // Lateral PID
-constexpr float lateral_kP = 10.8;
-constexpr float lateral_kI = 0.0;
+constexpr float lateral_kP = 9;
+constexpr float lateral_kI = 0;
 constexpr float lateral_kD = 5; // 3.5
 
 constexpr float lateral_windupRange = 0;
@@ -96,7 +96,7 @@ constexpr float angular_kI = 0;
 constexpr float angular_kD = 20; // 10.5
 
 constexpr float angular_windupRange = 0;
-constexpr float angular_smallError = 0.1;
+constexpr float angular_smallError = 0.05;
 constexpr float angular_smallTime = 100;
 constexpr float angular_largeError = 0;
 constexpr float angular_largeTime = 0;

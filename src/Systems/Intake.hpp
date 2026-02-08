@@ -130,10 +130,10 @@ struct Intake {
     bool initDescoreState = descore.getStateDescore();
     if (initDescoreState) {
       descore.toggleDescoreOff();
-      delay(20);
+      delay(10);
     }
-    topScoreMotor_motor.move(227);
-    delay(20);
+    topScoreMotor_motor.move(127);
+    delay(100);
     topScoreMotor_motor.move(volt[2]);
     if (initDescoreState) {
       descore.toggleDescoreOn();
@@ -141,8 +141,8 @@ struct Intake {
   }
 
   void middleEject() {
-    topScoreMotor_motor.move(-227);
-    delay(30);
+    topScoreMotor_motor.move(-127);
+    delay(75);
     topScoreMotor_motor.move(volt[2]);
   }
 
