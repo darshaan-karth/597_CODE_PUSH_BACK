@@ -96,7 +96,7 @@ constexpr float angular_kI = 0;
 constexpr float angular_kD = 20; // 10.5
 
 constexpr float angular_windupRange = 0;
-constexpr float angular_smallError = 0.1;
+constexpr float angular_smallError = 0.05;
 constexpr float angular_smallTime = 100;
 constexpr float angular_largeError = 0;
 constexpr float angular_largeTime = 0;

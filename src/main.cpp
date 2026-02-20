@@ -23,6 +23,7 @@ Controller master(E_CONTROLLER_MASTER);
 pros::Task *statusTask = nullptr;
 pros::Task *visionTaskHandle = nullptr;
 pros::Task *intakeTaskHandle = nullptr;
+pros::Mutex mutex;
 
 // ASSET(blueRight_txt);
 // lemlib_tarball::Decoder BLUE_RIGHT(blueRight_txt);
