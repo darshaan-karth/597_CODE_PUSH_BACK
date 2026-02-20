@@ -23,6 +23,7 @@ struct Intake {
   bool ejecting = false;
   bool isIntaked = false;
   bool isMiddleActive = false;
+  bool isTopActive = false;
   int volt[3] = {0, 0, 0}; // bottom, middle, top
 
   Intake() {
@@ -56,6 +57,9 @@ struct Intake {
     volt[1] = 0;
     volt[2] = 0;
 
+    isMiddleActive = false;
+    isTopActive = false;
+
     bottomIntakeMotor_motor.move(volt[0]);
     middleScoreMotor_motor.move(volt[1]);
     topScoreMotor_motor.move(volt[2]);
@@ -63,6 +67,7 @@ struct Intake {
 
   void applyStorage() {
     isMiddleActive = false;
+    isTopActive = false;
     if (!descore.getStateDescore()) {
       descore.toggleDescoreOn();
       delay(75);
@@ -81,7 +86,9 @@ struct Intake {
     volt[0] = -127;
     volt[1] = 127;
     volt[2] = -127;
+
     isMiddleActive = false;
+    isTopActive = false;
 
     bottomIntakeMotor_motor.move(volt[0]);
     middleScoreMotor_motor.move(volt[1]);
@@ -90,6 +97,7 @@ struct Intake {
 
   void applyMiddleGoal() {
     isMiddleActive = true;
+    isTopActive = false;
     if (isIntaked) {
       applyLowerGoal();
       delay(150);
@@ -108,6 +116,7 @@ struct Intake {
 
   void applyTopGoal() {
     isMiddleActive = false;
+    isTopActive = true;
     if (descore.getStateDescore()) {
       applyLowerGoal();
       delay(150);
@@ -130,10 +139,10 @@ struct Intake {
     bool initDescoreState = descore.getStateDescore();
     if (initDescoreState) {
       descore.toggleDescoreOff();
-      delay(20);
+      delay(75);
     }
-    topScoreMotor_motor.move(227);
-    delay(20);
+    topScoreMotor_motor.move(127);
+    delay(75);
     topScoreMotor_motor.move(volt[2]);
     if (initDescoreState) {
       descore.toggleDescoreOn();
@@ -141,13 +150,15 @@ struct Intake {
   }
 
   void middleEject() {
-    topScoreMotor_motor.move(-227);
-    delay(30);
+    topScoreMotor_motor.move(-127);
+    delay(75);
     topScoreMotor_motor.move(volt[2]);
   }
 
   // Intake Contral Status Getters
   inline bool getMiddleActive() { return isMiddleActive; }
+
+  inline bool getTopActive() { return isTopActive; }
 
   inline int32_t getMotorCurrent(int tier = 1) {
     // Returns the current draw from the middle intake motor in mA
@@ -164,10 +175,11 @@ struct Intake {
     while (true) {
       mutex.take();
 
-      if (ejecting) {
+      if (ejecting && owner != IntakeOwner::DRIVER &&
+          owner != IntakeOwner::AUTON) {
         if (getMiddleActive()) {
           topEject();
-        } else {
+        } else if (getTopActive()) {
           middleEject();
         }
         ejecting = false;

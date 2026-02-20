@@ -23,12 +23,12 @@ constexpr int8_t br_p = 17;  // Back Right
 
 // Sensor Ports
 constexpr int8_t imu_port = 5;
-constexpr int8_t vertical_encoder_port = 4;
+constexpr int8_t vertical_encoder_port = 16;
 constexpr int8_t vision_p = 7;
 
 // Descore Mechanism Port
 constexpr unsigned char descore_p = 'E'; // Port for the Pneumatic descorer
-constexpr unsigned char loader_p = 'A';  // Port for the Pneumatic loader
+constexpr unsigned char loader_p = 'C';  // Port for the Pneumatic loader
 
 // Intake Motor Ports
 constexpr int8_t bottomIntakeMotor = 2;
@@ -79,15 +79,15 @@ constexpr int8_t topScoreMotor = 1;
  */
 
 // Lateral PID
-constexpr float lateral_kP = 10.8;
+constexpr float lateral_kP = 10.8; // 10.8;
 constexpr float lateral_kI = 0.0;
-constexpr float lateral_kD = 5; // 3.5
+constexpr float lateral_kD = 5;
 
 constexpr float lateral_windupRange = 0;
 constexpr float lateral_smallError = 0.2;
 constexpr float lateral_smallTime = 100;
-constexpr float lateral_largeError = 0;
-constexpr float lateral_largeTime = 0;
+constexpr float lateral_largeError = 1;
+constexpr float lateral_largeTime = 1000;
 constexpr float lateral_maxVoltage = 12000;
 
 // Angular PID

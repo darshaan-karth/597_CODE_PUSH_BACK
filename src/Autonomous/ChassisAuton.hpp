@@ -20,14 +20,16 @@ private:
 
 public:
   ChassisAuton()
-      : imu(imu_port), leftMotors({fl_p, ml_p, bl_p}),
-        rightMotors({fr_p, mr_p, br_p}), drivetrain(&leftMotors, &rightMotors,
-                                                    11.75, // track width
-                                                    lemlib::Omniwheel::NEW_325,
-                                                    600, // wheel travel
-                                                    0.1   // higher  values make the robot move faster but causes more overshoot on turns
-                                                    ),
-        odomSensors(&vertical_tracking, nullptr, nullptr, nullptr, &imu),
+      : imu(imu_port), leftMotors({fl_p, ml_p, bl_p}, pros::MotorGearset::blue),
+        rightMotors({fr_p, mr_p, br_p}, pros::MotorGearset::blue),
+        drivetrain(&leftMotors, &rightMotors,
+                   12.25, // track width
+                   lemlib::Omniwheel::NEW_325,
+                   450, // wheel travel
+                   0.1  // higher  values make the robot move faster but causes
+                        // more overshoot on turns
+                   ),
+        odomSensors(nullptr, nullptr, nullptr, nullptr, &imu),
         chassis(drivetrain, lateralPID, angularPID, odomSensors, nullptr,
                 nullptr) {}
 
@@ -46,9 +48,17 @@ public:
     chassis.follow(path, lookahead, timeout, true, false);
   }
 
+  // std::abs(y) * (518.0 / 24.0) * (127 / speed),
+
   // Moves robot to an absolute field position (X, Y in inches)
   void moveTo(double x, double y, float speed = 127, bool isForward = true) {
-    chassis.moveToPoint(x, y, std::abs(y) * (500.0 / 24.0) * (127 / speed), {.forwards = isForward, .maxSpeed = speed});
+    int constantTime =
+        (speed == 127)
+            ? (550.0 / 24.0)
+            : (2700.0 /
+               24.0); // Add extra time if moving slower than full speed
+    chassis.moveToPoint(x, y, std::abs(y) * constantTime,
+                        {.forwards = isForward, .maxSpeed = speed});
     chassis.waitUntilDone();
     delay(20);
     chassis.turnToHeading(0, 1000, {.maxSpeed = 90});

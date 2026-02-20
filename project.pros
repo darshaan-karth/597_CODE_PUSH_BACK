@@ -1,7 +1,7 @@
 {
   "py/object": "pros.conductor.project.Project",
   "py/state": {
-    "project_name": "RIGHT_BLUE",
+    "project_name": "RIGHT_H",
     "target": "v5",
     "templates": {
       "LemLib": {
@@ -653,7 +653,7 @@
     },
     "upload_options": {
       "icon": "planet",
-      "slot": 8
+      "slot": 4
     },
     "use_early_access": false
   }

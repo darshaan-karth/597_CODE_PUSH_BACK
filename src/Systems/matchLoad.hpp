@@ -10,7 +10,6 @@ class matchLoad {
 private:
   bool stateLoader = false;
   DigitalOut loader = DigitalOut(loader_p, stateLoader);
-  
 
 public:
   matchLoad() {}
