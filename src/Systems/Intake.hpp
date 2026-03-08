@@ -1,14 +1,18 @@
 #pragma once
 
-#include "../Constants.hpp"
-#include "DescoreMech.hpp"
+#include "main.h"
 #include "pros/motors.h"
 
 using namespace Constants;
 using namespace pros;
 
-enum class IntakeOwner { AUTON, DRIVER };
-enum class IntakeMode { STOP, STORE, LOWER, MIDDLE, TOP };
+enum class IntakeOwner { AUTON,
+                         DRIVER };
+enum class IntakeMode { STOP,
+                        STORE,
+                        LOWER,
+                        MIDDLE,
+                        TOP };
 
 struct Intake {
   // Initalizing Intake Motors
@@ -24,7 +28,7 @@ struct Intake {
   bool isIntaked = false;
   bool isMiddleActive = false;
   bool isTopActive = false;
-  int volt[3] = {0, 0, 0}; // bottom, middle, top
+  int volt[3] = {0, 0, 0};  // bottom, middle, top
 
   Intake() {
     bottomIntakeMotor_motor.set_encoder_units(E_MOTOR_ENCODER_COUNTS);
@@ -139,17 +143,10 @@ struct Intake {
     bool initDescoreState = descore.getStateDescore();
     if (initDescoreState) {
       descore.toggleDescoreOff();
-<<<<<<< HEAD
       delay(75);
     }
     topScoreMotor_motor.move(127);
     delay(75);
-=======
-      delay(10);
-    }
-    topScoreMotor_motor.move(127);
-    delay(100);
->>>>>>> 24fcec5a9b5c978c47df4ac1268378232f376201
     topScoreMotor_motor.move(volt[2]);
     if (initDescoreState) {
       descore.toggleDescoreOn();
@@ -193,21 +190,21 @@ struct Intake {
 
       } else {
         switch (mode) {
-        case IntakeMode::STOP:
-          applyStop();
-          break;
-        case IntakeMode::STORE:
-          applyStorage();
-          break;
-        case IntakeMode::LOWER:
-          applyLowerGoal();
-          break;
-        case IntakeMode::MIDDLE:
-          applyMiddleGoal();
-          break;
-        case IntakeMode::TOP:
-          applyTopGoal();
-          break;
+          case IntakeMode::STOP:
+            applyStop();
+            break;
+          case IntakeMode::STORE:
+            applyStorage();
+            break;
+          case IntakeMode::LOWER:
+            applyLowerGoal();
+            break;
+          case IntakeMode::MIDDLE:
+            applyMiddleGoal();
+            break;
+          case IntakeMode::TOP:
+            applyTopGoal();
+            break;
         }
       }
 

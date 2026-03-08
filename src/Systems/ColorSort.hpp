@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Constants.hpp"
+#include "main.h"
 #include "pros/vision.hpp"
 
 using namespace Constants;
@@ -28,7 +28,7 @@ struct ColorSort {
     int detect_sig = 0;
     if (vision_sensor.get_object_count() > object_threshold) {
       vision_sensor.read_by_code(0, COLOR_CODE, NUM_VISION_OBJECTS, object_arr);
-      //if (object_arr[0].left_coord >= 75){
+      // if (object_arr[0].left_coord >= 75){
       detect_sig = object_arr[0].signature;
       //}
     }

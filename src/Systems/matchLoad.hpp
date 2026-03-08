@@ -1,17 +1,17 @@
 #pragma once
 
-#include "../Constants.hpp"
+#include "main.h"
 #include "pros/adi.hpp"
 
 using namespace pros::adi;
 using namespace Constants;
 
 class matchLoad {
-private:
+ private:
   bool stateLoader = false;
   DigitalOut loader = DigitalOut(loader_p, stateLoader);
 
-public:
+ public:
   matchLoad() {}
 
   void toggleLoader() {
