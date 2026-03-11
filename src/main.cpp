@@ -3,10 +3,6 @@
 #include <cstdio>
 
 #include "Constants.hpp"
-#include "Systems/ColorSort.hpp"
-#include "Systems/DescoreMech.hpp"
-#include "Systems/Intake.hpp"
-#include "Systems/matchLoad.hpp"
 #include "pros/misc.h"
 #include "pros/rtos.hpp"
 
@@ -82,7 +78,7 @@ void initialize() {
       {"Right Long Auton\n\nAuton Side: Right\nTarget: Long Goal & Match Load", rightLong},
       {"Right Lower Auton\n\nAuton Side: Right\nTarget: Lower Goal", rightLower},
       {"Left Long Auton\n\nAuton Side: Left\nTarget: Long Goal & Match Load", leftLong},
-      {"Left Lower Auton\n\nAuton Side: Left\nTarget: Lower Goal", leftLower},
+      {"Left Middle Auton\n\nAuton Side: Left\nTarget: Middle Goal", leftMiddle},
 
       {"Skills Autonomous\n\nParking Only", skillsPark},
       {"Skills Autonomous\n\nRight Quadrant Skills\nStarting heading: Lower Goal\nPurpose: 1 Low, 1 Loader, 1 Top, & Park", skillsRightQuad},

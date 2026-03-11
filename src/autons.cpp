@@ -405,7 +405,7 @@ void leftLong() {
   delay(10000);
 }
 
-void leftLower() {
+void leftMiddle() {
   chassis.pid_drive_set(15.2_in, DRIVE_SPEED, true);
   chassis.pid_wait();
 
@@ -424,7 +424,7 @@ void leftLower() {
 
   intk.stop();
 
-  chassis.pid_turn_set(270_deg, TURN_SPEED, ez::shortest);
+  chassis.pid_turn_set(225_deg, TURN_SPEED, ez::shortest);
   chassis.pid_wait();
 
   chassis.pid_drive_set(-19_in, DRIVE_SPEED);
@@ -464,6 +464,27 @@ void rightLong() {
 
   chassis.pid_drive_set(-10_in, DRIVE_SPEED);
   chassis.pid_wait();
+
+  delay(1000);
+
+  intk.stop();
+
+  chassis.pid_drive_set(20_in, DRIVE_SPEED, true);
+  chassis.pid_wait_quick_chain();
+
+  descore.toggleDescoreOff();
+
+  chassis.pid_turn_set(180_deg, TURN_SPEED, ez::shortest);
+  chassis.pid_wait_quick_chain();
+
+  chassis.pid_drive_set(20_in, DRIVE_SPEED, true);  // Fine Tune this distance for control bonus
+  chassis.pid_wait_quick_chain();
+
+  chassis.pid_turn_set(90_deg, TURN_SPEED, ez::shortest);
+  chassis.pid_wait_quick_chain();
+
+  chassis.pid_drive_set(-20_in, DRIVE_SPEED, true);  // Once the fine tune distance is good, this should be the more than the first drive back (30 inches)
+  chassis.pid_wait_quick_chain();
 }
 
 void rightLower() {
@@ -638,7 +659,7 @@ void skillsHalfField() {
 
   intk.lower();
 
-  chassis.pid_drive_set(100_in, DRIVE_SPEED);
+  chassis.pid_drive_set(50_in, DRIVE_SPEED);
   chassis.pid_wait();
 }
 

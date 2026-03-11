@@ -18,7 +18,7 @@ void odom_boomerang_injected_pure_pursuit_example();
 void measure_offsets();
 
 void leftLong();
-void leftLower();
+void leftMiddle();
 void rightLong();
 void rightLower();
 
