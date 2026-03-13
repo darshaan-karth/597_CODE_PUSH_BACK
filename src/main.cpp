@@ -74,7 +74,9 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-      {"TEST AUTON", test},
+      {"Skills Autonomous\n\nHalf Field Skills\nStarting heading: Lower Goal\nPurpose: 1 Low, 2 Loader, 2 Top, & Park", skillsHalfField},
+      {"Skills Autonomous\n\nFull Field Skills\nStarting heading: Right Match Loader\nPurpose: 4 Loader, 2 Top, & Park", skillsFullField},
+
       {"Right Long Auton\n\nAuton Side: Right\nTarget: Long Goal & Match Load", rightLong},
       {"Right Lower Auton\n\nAuton Side: Right\nTarget: Lower Goal", rightLower},
       {"Left Long Auton\n\nAuton Side: Left\nTarget: Long Goal & Match Load", leftLong},

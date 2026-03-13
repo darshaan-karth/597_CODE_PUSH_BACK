@@ -414,12 +414,12 @@ void leftMiddle() {
   chassis.pid_turn_set(315_deg, TURN_SPEED, ez::shortest);
   chassis.pid_wait_quick_chain();
 
-  chassis.pid_drive_set(25_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(22_in, 64, true);
   chassis.pid_wait_quick_chain();
 
   delay(1000);
 
-  chassis.pid_drive_set(-6_in, DRIVE_SPEED);
+  chassis.pid_drive_set(-11_in, DRIVE_SPEED);
   chassis.pid_wait();
 
   intk.stop();
@@ -427,7 +427,7 @@ void leftMiddle() {
   chassis.pid_turn_set(225_deg, TURN_SPEED, ez::shortest);
   chassis.pid_wait();
 
-  chassis.pid_drive_set(-19_in, DRIVE_SPEED);
+  chassis.pid_drive_set(-17_in, DRIVE_SPEED);
   chassis.pid_wait_quick_chain();
 
   chassis.pid_drive_set(2_in, DRIVE_SPEED);
@@ -436,6 +436,8 @@ void leftMiddle() {
   intk.lower();
   delay(100);
   intk.middle();
+
+  delay(5000);
 }
 
 void rightLong() {
@@ -450,7 +452,7 @@ void rightLong() {
 
   intk.store();
 
-  chassis.pid_drive_set(20_in, 32, true);
+  chassis.pid_drive_set(20_in, 64, true);
   chassis.pid_wait();
 
   delay(1000);
@@ -469,7 +471,7 @@ void rightLong() {
 
   intk.stop();
 
-  chassis.pid_drive_set(20_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(10_in, DRIVE_SPEED);
   chassis.pid_wait_quick_chain();
 
   descore.toggleDescoreOff();
@@ -477,13 +479,13 @@ void rightLong() {
   chassis.pid_turn_set(180_deg, TURN_SPEED, ez::shortest);
   chassis.pid_wait_quick_chain();
 
-  chassis.pid_drive_set(20_in, DRIVE_SPEED, true);  // Fine Tune this distance for control bonus
+  chassis.pid_drive_set(5.9_in, DRIVE_SPEED, true);  // Fine Tune this distance for control bonus
   chassis.pid_wait_quick_chain();
 
   chassis.pid_turn_set(90_deg, TURN_SPEED, ez::shortest);
   chassis.pid_wait_quick_chain();
 
-  chassis.pid_drive_set(-20_in, DRIVE_SPEED, true);  // Once the fine tune distance is good, this should be the more than the first drive back (30 inches)
+  chassis.pid_drive_set(-23_in, 64, true);  // Once the fine tune distance is good, this should be the more than the first drive back (30 inches)
   chassis.pid_wait_quick_chain();
 }
 
@@ -496,7 +498,7 @@ void rightLower() {
   chassis.pid_turn_set(45_deg, TURN_SPEED);
   chassis.pid_wait_quick_chain();
 
-  chassis.pid_drive_set(20_in, 64, true);
+  chassis.pid_drive_set(20_in, 32, true);
   chassis.pid_wait_quick_chain();
 
   delay(1000);
@@ -509,17 +511,14 @@ void rightLower() {
   chassis.pid_turn_set(315_deg, TURN_SPEED, ez::shortest);
   chassis.pid_wait();
 
-  intk.lower();
-  delay(50);
-
   chassis.pid_drive_set(19_in, DRIVE_SPEED);
   chassis.pid_wait_quick_chain();
 
-  chassis.pid_drive_set(-2_in, DRIVE_SPEED);
+  chassis.pid_drive_set(-4_in, DRIVE_SPEED);
   chassis.pid_wait();
 
   int count = 0;
-  while (count < 5) {
+  while (count < 7) {
     intk.lower();
     delay(700);
     intk.stop();
@@ -596,7 +595,7 @@ void skillsHalfField() {
   chassis.pid_turn_set(180_deg, TURN_SPEED, ez::shortest);
   chassis.pid_wait_quick_chain();
 
-  chassis.pid_drive_set(20_in, 32, true);
+  chassis.pid_drive_set(20_in, 64, true);
   chassis.pid_wait_quick_chain();
 
   delay(2000);
@@ -619,7 +618,7 @@ void skillsHalfField() {
   chassis.pid_turn_set(270_deg, TURN_SPEED, ez::shortest);
   chassis.pid_wait_quick_chain();
 
-  chassis.pid_drive_set(96_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(83_in, DRIVE_SPEED, true);
   chassis.pid_wait_quick_chain();
 
   loader.toggleLoaderOn();
@@ -628,7 +627,7 @@ void skillsHalfField() {
   chassis.pid_turn_set(180_deg, TURN_SPEED, ez::shortest);
   chassis.pid_wait_quick_chain();
 
-  chassis.pid_drive_set(20_in, 32, true);
+  chassis.pid_drive_set(22_in, 64, true);
   chassis.pid_wait_quick_chain();
 
   delay(2000);
@@ -651,13 +650,178 @@ void skillsHalfField() {
   chassis.pid_turn_set(135_deg, TURN_SPEED, ez::shortest);
   chassis.pid_wait_quick_chain();
 
-  chassis.pid_drive_set(20_in, DRIVE_SPEED);
+  chassis.pid_drive_set(25_in, DRIVE_SPEED);
   chassis.pid_wait();
+
+  chassis.pid_turn_set(113_deg, TURN_SPEED, ez::shortest);
+  chassis.pid_wait_quick_chain();
+
+  intk.lower();
+
+  chassis.pid_drive_set(100_in, DRIVE_SPEED);
+  chassis.pid_wait();
+}
+
+void skillsFullField() {
+  // Right Match Loaders & Long Goal -1
+  chassis.pid_drive_set(30_in, DRIVE_SPEED, true);
+  chassis.pid_wait_quick_chain();
 
   chassis.pid_turn_set(90_deg, TURN_SPEED, ez::shortest);
   chassis.pid_wait_quick_chain();
 
-  intk.lower();
+  chassis.pid_drive_set(20_in, 64, true);
+  chassis.pid_wait_quick_chain();
+
+  delay(2000);
+
+  chassis.pid_drive_set(-30_in, DRIVE_SPEED, true);
+  chassis.pid_wait_quick_chain();
+
+  intk.stop();
+  loader.toggleLoaderOff();
+  intk.top();
+
+  chassis.pid_drive_set(-10_in, DRIVE_SPEED);
+  chassis.pid_wait_quick_chain();
+
+  delay(2000);
+
+  // Left Match Loaders & Long Goal - 1
+  chassis.pid_drive_set(10_in, DRIVE_SPEED);
+  chassis.pid_wait_quick_chain();
+
+  chassis.pid_turn_set(180_deg, TURN_SPEED, ez::shortest);
+  chassis.pid_wait_quick_chain();
+
+  chassis.pid_drive_set(83_in, DRIVE_SPEED, true);
+  chassis.pid_wait_quick_chain();
+
+  loader.toggleLoaderOn();
+  intk.store();
+
+  chassis.pid_turn_set(90_deg, TURN_SPEED, ez::shortest);
+  chassis.pid_wait_quick_chain();
+
+  chassis.pid_drive_set(22_in, 64, true);
+  chassis.pid_wait_quick_chain();
+
+  delay(2000);
+
+  chassis.pid_drive_set(-30_in, DRIVE_SPEED, true);
+  chassis.pid_wait_quick_chain();
+
+  intk.stop();
+  loader.toggleLoaderOff();
+  intk.top();
+
+  chassis.pid_drive_set(-10_in, DRIVE_SPEED);
+  chassis.pid_wait_quick_chain();
+
+  delay(2000);
+
+  // Left Match Loaders & Long Goal - 2
+  chassis.pid_drive_set(10_in, DRIVE_SPEED);
+  chassis.pid_wait_quick_chain();
+
+  chassis.pid_turn_set(0_deg, TURN_SPEED, ez::shortest);
+  chassis.pid_wait_quick_chain();
+
+  chassis.pid_drive_set(10_in, DRIVE_SPEED);
+  chassis.pid_wait_quick_chain();
+
+  chassis.pid_turn_set(270_deg, TURN_SPEED, ez::shortest);
+  chassis.pid_wait_quick_chain();
+
+  chassis.pid_drive_set(60_in, DRIVE_SPEED, true);
+  chassis.pid_wait_quick_chain();
+
+  chassis.pid_turn_set(180_deg, TURN_SPEED, ez::shortest);
+  chassis.pid_wait_quick_chain();
+
+  chassis.pid_drive_set(10_in, DRIVE_SPEED);
+  chassis.pid_wait_quick_chain();
+
+  loader.toggleLoaderOn();
+  intk.store();
+
+  chassis.pid_turn_set(270_deg, TURN_SPEED, ez::shortest);
+  chassis.pid_wait_quick_chain();
+
+  chassis.pid_drive_set(22_in, 64, true);
+  chassis.pid_wait_quick_chain();
+
+  delay(2000);
+
+  chassis.pid_drive_set(-30_in, DRIVE_SPEED, true);
+  chassis.pid_wait_quick_chain();
+
+  intk.stop();
+  loader.toggleLoaderOff();
+  intk.top();
+
+  chassis.pid_drive_set(-10_in, DRIVE_SPEED);
+  chassis.pid_wait_quick_chain();
+
+  delay(2000);
+
+  // Right Match Loaders & Long Goal - 2
+  chassis.pid_drive_set(10_in, DRIVE_SPEED);
+  chassis.pid_wait_quick_chain();
+
+  chassis.pid_turn_set(0_deg, TURN_SPEED, ez::shortest);
+  chassis.pid_wait_quick_chain();
+
+  chassis.pid_drive_set(83_in, DRIVE_SPEED, true);
+  chassis.pid_wait_quick_chain();
+
+  loader.toggleLoaderOn();
+  intk.store();
+
+  chassis.pid_turn_set(270_deg, TURN_SPEED, ez::shortest);
+  chassis.pid_wait_quick_chain();
+
+  chassis.pid_drive_set(22_in, 64, true);
+  chassis.pid_wait_quick_chain();
+
+  delay(2000);
+
+  chassis.pid_drive_set(-30_in, DRIVE_SPEED, true);
+  chassis.pid_wait_quick_chain();
+
+  intk.stop();
+  loader.toggleLoaderOff();
+  intk.top();
+
+  chassis.pid_drive_set(-10_in, DRIVE_SPEED);
+  chassis.pid_wait_quick_chain();
+
+  delay(2000);
+
+  // Parking
+  chassis.pid_drive_set(10_in, DRIVE_SPEED);
+  chassis.pid_wait_quick_chain();
+
+  chassis.pid_turn_set(180_deg, TURN_SPEED, ez::shortest);
+  chassis.pid_wait_quick_chain();
+
+  chassis.pid_drive_set(10_in, DRIVE_SPEED);
+  chassis.pid_wait_quick_chain();
+
+  chassis.pid_turn_set(90_deg, TURN_SPEED, ez::shortest);
+  chassis.pid_wait_quick_chain();
+
+  chassis.pid_drive_set(80_in, DRIVE_SPEED, true);
+  chassis.pid_wait_quick_chain();
+
+  chassis.pid_turn_set(180_deg, TURN_SPEED, ez::shortest);
+  chassis.pid_wait_quick_chain();
+
+  chassis.pid_drive_set(10_in, DRIVE_SPEED);
+  chassis.pid_wait_quick_chain();
+
+  loader.toggleLoaderOn();
+  intk.store();
 
   chassis.pid_drive_set(50_in, DRIVE_SPEED);
   chassis.pid_wait();
