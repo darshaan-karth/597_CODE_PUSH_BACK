@@ -3,6 +3,7 @@
 #include <cstdio>
 
 #include "Constants.hpp"
+#include "autons.hpp"
 #include "pros/misc.h"
 #include "pros/rtos.hpp"
 
@@ -74,10 +75,8 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-      {"Skills Autonomous\n\nHalf Field Skills\nStarting heading: Lower Goal\nPurpose: 1 Low, 2 Loader, 2 Top, & Park", skillsHalfField},
-      {"Skills Autonomous\n\nFull Field Skills\nStarting heading: Right Match Loader\nPurpose: 4 Loader, 2 Top, & Park", skillsFullField},
-
       {"Right Long Auton\n\nAuton Side: Right\nTarget: Long Goal & Match Load", rightLong},
+
       {"Right Lower Auton\n\nAuton Side: Right\nTarget: Lower Goal", rightLower},
       {"Left Long Auton\n\nAuton Side: Left\nTarget: Long Goal & Match Load", leftLong},
       {"Left Middle Auton\n\nAuton Side: Left\nTarget: Middle Goal", leftMiddle},
@@ -85,6 +84,7 @@ void initialize() {
       {"Skills Autonomous\n\nParking Only", skillsPark},
       {"Skills Autonomous\n\nRight Quadrant Skills\nStarting heading: Lower Goal\nPurpose: 1 Low, 1 Loader, 1 Top, & Park", skillsRightQuad},
       {"Skills Autonomous\n\nHalf Field Skills\nStarting heading: Lower Goal\nPurpose: 1 Low, 2 Loader, 2 Top, & Park", skillsHalfField},
+      {"Skills Autonomous\n\nFULL Field Skills\nStarting heading: Lower Goal\nPurpose: 1 Low, 2 Loader, 2 Top, & Park", skillsFullField},
 
       {"Drive\n\nDrive forward and come back", drive_example},
       {"Turn\n\nTurn 3 times.", turn_example},
